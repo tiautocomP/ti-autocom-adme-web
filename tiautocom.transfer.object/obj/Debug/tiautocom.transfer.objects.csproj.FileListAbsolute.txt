@@ -1,0 +1,12 @@
+C:\Projetos\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\bin\Debug\tiautocom.transfer.@object.dll
+C:\Projetos\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\bin\Debug\tiautocom.transfer.@object.pdb
+C:\Projetos\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\obj\Debug\tiautocom.transfer.@object.dll
+C:\Projetos\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\obj\Debug\tiautocom.transfer.@object.pdb
+C:\Projetos\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\obj\Debug\tiautocom.transfer.objects.csproj.AssemblyReference.cache
+C:\Projetos\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\obj\Debug\tiautocom.transfer.objects.csproj.CoreCompileInputs.cache
+C:\Projetos\Git\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\bin\Debug\tiautocom.transfer.@object.dll
+C:\Projetos\Git\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\bin\Debug\tiautocom.transfer.@object.pdb
+C:\Projetos\Git\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\obj\Debug\tiautocom.transfer.objects.csproj.AssemblyReference.cache
+C:\Projetos\Git\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\obj\Debug\tiautocom.transfer.objects.csproj.CoreCompileInputs.cache
+C:\Projetos\Git\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\obj\Debug\tiautocom.transfer.@object.dll
+C:\Projetos\Git\ADMe\tiautocom.adm.panel\tiautocom.transfer.object\obj\Debug\tiautocom.transfer.@object.pdb

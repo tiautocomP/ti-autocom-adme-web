@@ -25,9 +25,9 @@ namespace tiautocom.data.access
 				{
 					connections.Open();
 
-					sql.Append("insert into input (produto_id, usuario_id, date, quantity, input_open, cpf_cnpj, company_id)");
+					sql.Append("insert into input (produto_id, usuario_id, date, quantity, input_open, cpf_cnpj, company_id, note_number, barcode, price, price_cost)");
 					sql.Append("values");
-					sql.Append("(@produto_id, @usuario_id, @date, @quantity, 1, @cpf_cnpj, @company_id)");
+					sql.Append("(@produto_id, @usuario_id, @date, @quantity, 1, @cpf_cnpj, @company_id, @note_number, @barcode, @price, @price_cost)");
 
 					comandoSql.CommandText = sql.ToString();
 					comandoSql.Connection = connections;
@@ -38,6 +38,10 @@ namespace tiautocom.data.access
 					comandoSql.Parameters.AddWithValue("@quantity", inputs.quantity);
 					comandoSql.Parameters.AddWithValue("@cpf_cnpj", inputs.cpf_cnpj);
 					comandoSql.Parameters.AddWithValue("@company_id", inputs.company_id);
+					comandoSql.Parameters.AddWithValue("@note_number", inputs.note_number);
+					comandoSql.Parameters.AddWithValue("@barcode", inputs.barcode);
+					comandoSql.Parameters.AddWithValue("@price", Convert.ToDecimal(inputs.price));
+					comandoSql.Parameters.AddWithValue("@price_cost", Convert.ToDecimal(inputs.price_cost));
 
 					comandoSql.ExecuteNonQuery();
 
@@ -62,7 +66,11 @@ namespace tiautocom.data.access
 				{
 					connections.Open();
 
-					sql.Append("select * from input i left join product p on i.produto_id=p.cod_int where cpf_cnpj='" + documents + "' order by  date asc");
+					sql.Append("select i.id, i.produto_id, usuario_id, i.date, i.quantity, i.input_open, i.cpf_cnpj, i.company_id, i.note_number, i.barcode, i.price, i.price_cost, p.descricao, p.cnpj, p.custo, p.estoque, p.preco, p.unid, sum(i.price_cost * i.quantity) as total ");
+					sql.Append("from input i left join product p on i.produto_id = p.cod_int  ");
+					sql.Append("where p.cnpj = '" + documents + "' ");
+					sql.Append("group by i.id, i.produto_id, usuario_id, i.date, i.quantity, i.input_open, i.cpf_cnpj, i.company_id, i.note_number, i.barcode, i.price, i.price_cost, p.descricao, p.cnpj, p.custo, p.estoque, p.preco, p.unid ");
+					sql.Append("order by  i.date asc");
 
 					comandoSql.CommandText = sql.ToString();
 					comandoSql.Connection = connections;
@@ -80,11 +88,13 @@ namespace tiautocom.data.access
 								produto_id = Convert.ToInt32(datatable.Rows[i]["PRODUTO_ID"].ToString().Trim()),
 								usuario_id = Convert.ToInt32(datatable.Rows[i]["USUARIO_ID"].ToString().Trim()),
 								date = Convert.ToDateTime(datatable.Rows[i]["DATE"].ToString().Trim()),
-								barcode = datatable.Rows[i]["COD_BARRA"].ToString().Trim(),
+								barcode = datatable.Rows[i]["BARCODE"].ToString().Trim(),
 								description = datatable.Rows[i]["DESCRICAO"].ToString().Trim(),
 								price = Convert.ToDecimal(datatable.Rows[i]["PRECO"].ToString().Trim()).ToString("N3"),
 								quantity = Convert.ToDecimal(datatable.Rows[i]["QUANTITY"].ToString().Trim()).ToString("N3"),
 								unity = datatable.Rows[i]["UNID"].ToString().Trim(),
+								price_cost = Convert.ToDecimal(datatable.Rows[i]["PRICE_COST"].ToString().Trim()).ToString("N3"),
+								total = Convert.ToDecimal(datatable.Rows[i]["TOTAL"].ToString().Trim()).ToString("N3"),
 							});
 						}
 

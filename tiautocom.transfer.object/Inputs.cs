@@ -20,6 +20,7 @@ namespace tiautocom.transfer.objects
 		public string price { get; set; }
 		public string unity { get; set; }
 		public string note_number { get; set; }
-		public decimal price_cost { get; set; }
+		public string price_cost { get; set; }
+		public string total { get; set; }
 	}
 }

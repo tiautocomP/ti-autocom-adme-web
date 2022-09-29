@@ -8,6 +8,9 @@ let html_descripitions;
 getdepartment();
 
 function getdepartment() {
+	const respjson = localStorage.getItem("listusers");
+	const user = JSON.parse(respjson);
+
 	$.ajax({
 		url: "products-list.aspx/getdepartmentsall",
 		data: "",
@@ -141,7 +144,7 @@ function getproducts(department_id) {
 					'</tbody>' +
 					'</table> ';
 
-				window.document.getElementById('table-products').innerHTML = html;
+				window.document.getElementById('table-products').innerHTML = html.replace('undefined', 'Cadastro individual de Produtos CNPJ: ' + user[0].cpf_cnpj);
 
 				get_html_descripitions();
 
@@ -166,7 +169,7 @@ function tableclean() {
 }
 
 function get_html_descripitions() {
-	
+
 	let html_descripitions = '<ul class="nav nav-pillsa justify-content-start" style="color: #000000">' +
 		'<li class="nav-item">' +
 		'<a class="nav-link active bg-transparent pr-2 pl-0 text-primary" onclick="getestoque(200)">Todos <span class="badge badge-pill bg-primary text-white ml-2">' + inventory_all + '</span></a>' +
@@ -326,7 +329,7 @@ function showmodalproduct(id, codigo, produto) {
 
 			var produtcts = JSON.parse(responses.d);
 
-			var html_title = '<h5 class="modal-title">ENTRADA PRODUTO: ' + produtcts[0].descricao + '</h5>';
+			var html_title = '<h5 class="modal-title">ENTRADA PRODUTO:  ' + produtcts[0].descricao + '</h5>';
 			var html_modal_footer = '<button type="button" class="btn mb-2 btn-primary" onclick="inputProduct(' + produtcts[0].id + ')">Entrada</button>';
 
 			window.document.getElementById('modal-footer').innerHTML = html_modal_footer;
@@ -338,10 +341,13 @@ function showmodalproduct(id, codigo, produto) {
 			window.document.getElementById('product-inventory').value = produtcts[0].estoque;
 			window.document.getElementById("product-prive-cost").value = produtcts[0].custo;
 
-			$('#mySmallModalLabel').modal('toggle');
+			$('#defaultModal').modal('toggle');
 
-			window.document.getElementById('product-input').value = "0,00";
-			window.document.getElementById('product-input').focus();
+			window.document.getElementById('product-input').value = "0,000";
+
+			$("#note-number").val("");
+			$("#input-cnpj").val("");
+			$("#note-number").focus()
 		}
 	});
 }

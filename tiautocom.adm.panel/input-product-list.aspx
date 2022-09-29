@@ -89,11 +89,13 @@
 						</div>
 
 						<div id="table-input-products">Tabela de Entrada</div>
+						<div class="col-md-auto ml-auto text-right">
+							<div id="total-note"></div>
+						</div>
 
 						<hr />
-						<div class="form-group">
-							<button class="btn btn-primary" type="button" onclick="exportProduct()">Exportar Produtos</button>
-						</div>
+						<button class="btn btn-primary" type="button" onclick="exportProduct()">Exportar Produtos</button>
+
 
 						<nav aria-label="Table Paging" class="my-3">
 							<ul class="pagination justify-content-end mb-0">
@@ -290,6 +292,10 @@
 					<div class="modal-content">
 						<div class="modal-body">
 							<div class="col-md-12">
+								<div class="form-group mb-12">
+									<label for="product-description">Nota Fiscal</label>
+									<input type="text" id="note_number" class="form-control" readonly="">
+								</div>
 								<div class="form-group mb-12">
 									<label for="product-description">Descrição do Produto</label>
 									<input type="text" id="product-description" class="form-control" readonly="">

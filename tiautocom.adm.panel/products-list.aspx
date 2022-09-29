@@ -207,100 +207,64 @@
 				</div>
 			</div>
 
-			<div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true" id="modal-fade-modal-shortcut-modal-slide">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="defaultModalLabels">Shortcuts</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body px-5">
-							<div class="row align-items-center">
-								<div class="col-6 text-center">
-									<div class="squircle bg-success justify-content-center">
-										<i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-									</div>
-									<p>Control area</p>
-								</div>
-								<div class="col-6 text-center">
-									<div class="squircle bg-primary justify-content-center">
-										<i class="fe fe-activity fe-32 align-self-center text-white"></i>
-									</div>
-									<p>Activity</p>
-								</div>
-							</div>
-							<div class="row align-items-center">
-								<div class="col-6 text-center">
-									<div class="squircle bg-primary justify-content-center">
-										<i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-									</div>
-									<p>Droplet</p>
-								</div>
-								<div class="col-6 text-center">
-									<div class="squircle bg-primary justify-content-center">
-										<i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-									</div>
-									<p>Upload</p>
-								</div>
-							</div>
-							<div class="row align-items-center">
-								<div class="col-6 text-center">
-									<div class="squircle bg-primary justify-content-center">
-										<i class="fe fe-users fe-32 align-self-center text-white"></i>
-									</div>
-									<p>Users</p>
-								</div>
-								<div class="col-6 text-center">
-									<div class="squircle bg-primary justify-content-center">
-										<i class="fe fe-settings fe-32 align-self-center text-white"></i>
-									</div>
-									<p>Settings</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="modal fade modal-right modal-slide" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mySmallModalLabel">
+			<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" id="defaultModal">
 				<div class="modal-dialog modal-xl" role="document" id="modal-large">
-					<div class="modal-header">
-						<%--//title--%>
-						<div id="modal-title"></div>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
+
 					<div class="modal-content">
 						<div class="modal-body">
+							<div class="modal-header">
+								<%--//title--%>
+								<div id="modal-title"></div>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
 							<div class="col-md-12">
-								<div class="form-group mb-12">
-									<label for="product-description">Descrição do Produto</label>
-									<input type="text" id="product-description" class="form-control" readonly="">
-								</div>
-								<div class="form-group mb-12">
-									<label for="product-price">Código de barras</label>
-									<input type="text" id="product-code" class="form-control" readonly="">
-								</div>
-								<div class="form-group mb-12">
-									<label for="product-price">R$ Preço</label>
-									<input type="text" id="product-price" class="form-control" readonly="" value="0,00" style="text-align: right">
-								</div>
-								<div class="form-group mb-12">
-									<label for="product-price">Estoque</label>
-									<input type="text" id="product-inventory" class="form-control" readonly="" value="0,00" style="text-align: right">
-								</div>
+								<form class="needs-validation" novalidate>
+									<br />
+									<div class="form-row">
+										<div class="col-md-2 mb-3">
+											<label for="product-price">Numero da Nota</label>
+											<input type="text" id="note-number" class="form-control" maxlength="44">
+										</div>
+										<div class="col-md-2 mb-3">
+											<label for="input-cnpj">CNPJ</label>
+											<input type="text" id="input-cnpj" class="form-control">
+										</div>
 
-								<div class="form-group mb-12">
-									<label for="product-prive-cost">R$ Custo</label>
-									<input type="text" id="product-prive-cost" class="form-control" readonly="" value="0,00" style="text-align: right">
-								</div>
-								<div class="form-col mb-12">
-									<label for="product-input">Quantidade Entrada</label>
-									<input type="text" id="product-input" class="form-control" placeholder="" value="0,00" style="text-align: right" onkeyup="formatarMoeda();">
-								</div>
+										<div class="col-md-2 mb-3">
+											<label for="product-price">Código de barras</label>
+											<input type="text" id="product-code" class="form-control" readonly="">
+										</div>
+
+										<div class="col-md-12 mb-3">
+											<label for="product-description">Descrição do Produto</label>
+											<input type="text" id="product-description" class="form-control" readonly="">
+										</div>
+
+
+										<div class="col-md-2 mb-3">
+											<label for="product-price input-money">R$ Preço</label>
+											<input type="text" id="product-price" class="form-control" value="0,00" style="text-align: right" onkeyup="formatarMoedaPreco();">
+										</div>
+										<div class="col-md-2 mb-3">
+											<label for="product-price">Estoque</label>
+											<input type="text" id="product-inventory" class="form-control" value="0,00" style="text-align: right" readonly="readonly">
+										</div>
+
+										<div class="col-md-2 mb-3">
+											<label for="product-prive-cost">R$ Custo</label>
+											<input type="text" id="product-prive-cost" class="form-control" value="0,000" style="text-align: right" onkeyup="formatarMoedaCusto();">
+										</div>
+
+										<div class="col-md-4 mb-3"></div>
+
+										<div class="col-md-2 mb-3">
+											<label for="product-input">Quantidade Entrada</label>
+											<input type="text" id="product-input" class="form-control" placeholder="" value="0,00" style="text-align: right" onkeyup="formatarMoedaQuantidade();">
+										</div>
+									</div>
+								</form>
 							</div>
 
 							<div class="modal-footer">
@@ -311,6 +275,7 @@
 					</div>
 				</div>
 			</div>
+
 		</main>
 		<!-- main -->
 	</div>
@@ -332,6 +297,7 @@
 	<script src='js/dropzone.min.js'></script>
 	<script src='js/uppy.min.js'></script>
 	<script src='js/quill.min.js'></script>
+	<script src="https://unpkg.com/imask"></script>
 	<script>
 		$('.select2').select2(
 			{
@@ -537,8 +503,41 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-56159088-1');
 
-		function formatarMoeda() {
+		function formatarMoedaQuantidade() {
 			var elemento = document.getElementById('product-input');
+			var valor = elemento.value;
+
+			valor = valor + '';
+			valor = parseInt(valor.replace(/[\D]+/g, ''));
+			valor = valor + '';
+			valor = valor.replace(/([0-9]{3})$/g, ",$1");
+
+			if (valor.length > 6) {
+				valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+			}
+
+			elemento.value = valor;
+		}
+
+		function formatarMoedaPreco() {
+			var elemento = document.getElementById('product-price');
+			var valor = elemento.value;
+
+			valor = valor + '';
+			valor = parseInt(valor.replace(/[\D]+/g, ''));
+			valor = valor + '';
+			valor = valor.replace(/([0-9]{3})$/g, ",$1");
+
+			if (valor.length > 6) {
+				valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+			}
+
+			elemento.value = valor;
+		}
+
+		function formatarMoedaCusto()
+		{
+			var elemento = document.getElementById('product-prive-cost');
 			var valor = elemento.value;
 
 			valor = valor + '';
@@ -581,6 +580,10 @@
 
 		.table thead th {
 			color: #000000;
+		}
+
+		.modal {
+			height: 100%;
 		}
 	</style>
 	<script src="scripts/menu-html.js"></script>

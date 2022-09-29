@@ -53,7 +53,7 @@ namespace tiautocom.data.access
 								valor_cofins = Convert.ToDecimal(datatable.Rows[i]["VALOR_PIS"].ToString().Trim()).ToString("N3'"),
 								cfop = datatable.Rows[i]["CFOP"].ToString().Trim(),
 								cst_cofins = datatable.Rows[i]["CST_COFINS"].ToString().Trim(),
-								origem = Convert.ToInt32(datatable.Rows[i]["ORIGEM_PRODUTO"].ToString().Trim()).ToString(),
+								origem = datatable.Rows[i]["ORIGEM_PRODUTO"].ToString().Trim().ToString(),
 								icms = datatable.Rows[i]["CST_COFINS"].ToString().Trim(),
 								icms_cst = datatable.Rows[i]["ICMS_CST"].ToString().Trim() ?? null ?? "0",
 								ncm = datatable.Rows[i]["NCM"].ToString().Trim(),

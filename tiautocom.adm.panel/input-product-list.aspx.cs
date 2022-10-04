@@ -25,5 +25,53 @@ namespace tiautocom.adm.panel
 
 			return sJSON;
 		}
+
+		[WebMethod]
+		public static string getProductsInputId(int id)
+		{
+			InputBusinessRule inputBusinessRule = new InputBusinessRule();
+
+			List<Inputs> list = inputBusinessRule.getProductsInputId(id);
+
+			System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+			string sJSON = oSerializer.Serialize(list).ToString();
+
+			return sJSON;
+		}
+
+		[WebMethod]
+		public static string productsInputUpdate(Inputs inputs)
+		{
+			InputBusinessRule inputBusinessRule = new InputBusinessRule();
+
+			List<Inputs> list = inputBusinessRule.productsInputUpdate(inputs);
+
+			System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+			string sJSON = oSerializer.Serialize(list).ToString();
+
+			return sJSON;
+		}
+
+		[WebMethod]
+		public static string InputDeleteId(int id)
+		{
+			InputBusinessRule inputBusinessRule = new InputBusinessRule();
+
+			string sJSON = inputBusinessRule.InputDeleteId(id);
+
+			return sJSON;
+		}
+
+		[WebMethod]
+		public static string ImportInput(string cnpj)
+		{
+			InputBusinessRule inputBusinessRule = new InputBusinessRule();
+
+			string sJSON = inputBusinessRule.ImportInput();
+
+			return sJSON;
+		}
 	}
 }

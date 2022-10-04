@@ -1,6 +1,8 @@
 ﻿input_clear();
 getProductInput();
 
+let retorno;
+
 function inputProduct(id) {
 
 	const respjson = localStorage.getItem("listusers");
@@ -23,7 +25,7 @@ function inputProduct(id) {
 		$("#note-number").focus();
 	}
 	else if (parseFloat(qtde) == 0 || qtde == null) {
-		$.notify("Atenção, Informe Quanitdade desejada de Entrada do produto: " + description + "  !", "info");
+		$.notify("Atenção, Informe Quantidade desejada de Entrada do produto: " + description + "  !", "info");
 
 		input_clear();
 	} else {
@@ -65,7 +67,7 @@ function inputProduct(id) {
 }
 
 function input_clear() {
-	window.document.getElementById('product-input').value = "0,00";
+	window.document.getElementById('product-input').value = "0,000";
 	window.document.getElementById('product-input').focus();
 }
 
@@ -83,6 +85,8 @@ function getProductInput() {
 
 			var object = JSON.parse(responses.d);
 
+			alert(responses.d);
+
 			let tag_html;
 			let tag_estatus;
 			let total = 0;
@@ -98,9 +102,11 @@ function getProductInput() {
 
 				for (var i = 0; i < inventory_tot; i++) {
 
-					total += parseFloat(object[i].total.replace(",", "."));
+					total += parseFloat(object[i].total);
 
-					if (user[0].input_open == 0) {
+				
+
+					if (object[i].input_open == false) {
 						inventory_zero++;
 						tag_estatus = '<td><span class="dot dot-lg bg-warning mr-2"></span></td >';
 					} else {
@@ -127,8 +133,8 @@ function getProductInput() {
 						'</button>' +
 						'<div class="dropdown-menu dropdown-menu-right">' +
 						/*	'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="#">Entrada</a>' +*/
-						'<a class="dropdown-item" href="#">Remover</a>' +
-						'<a class="dropdown-item" href="#">Alterar</a>' +
+						'<a class="dropdown-item" onclick="inputDelete(' + object[i].id + ')">Remover</a>' +
+						'<a class="dropdown-item" onclick="getInputUpdate(' + object[i].id + ')">Alterar</a>' +
 						'</div>' +
 						'</div>' +
 						'</td>' +
@@ -159,8 +165,6 @@ function getProductInput() {
 
 				window.document.getElementById('table-input-products').innerHTML = html.replace('undefined', 'Tabela de Entrada de Produtos: CNPJ: ' + user[0].cpf_cnpj);
 
-				/*	get_html_descripitions();*/
-
 				localStorage.setItem("products_input_list", JSON.stringify(object));
 
 				window.document.getElementById('total-note').innerHTML = "<h4>R$ Total Nota: " + total.toFixed(2).replace(".", ",");
@@ -168,7 +172,6 @@ function getProductInput() {
 			} else {
 				$.notify("Atenção, Não contém dados na tabela produto com departamento " + $('#multi-select-department').find(":selected").text().trim().toLowerCase() + "!", "error");
 			}
-
 		}
 	});
 }
@@ -195,16 +198,16 @@ function exportProduct() {
 		reverseButtons: true
 	}).then((result) => {
 		if (result.isConfirmed) {
-			if (importProduct() == true) {
+
+			if (importProduct() == "OK") {
+
 				swalWithBootstrapButtons.fire(
 					'Importado com sucesso!',
 					'Lista de produtos selecionado foi iportado com sucesso.',
 					'success'
 				)
 			}
-
 		} else if (
-			/* Read more about handling dismissals below */
 			result.dismiss === Swal.DismissReason.cancel
 		) {
 			swalWithBootstrapButtons.fire(
@@ -217,14 +220,31 @@ function exportProduct() {
 }
 
 function importProduct() {
-	return true;
+	const respjson = localStorage.getItem("listusers");
+	const user = JSON.parse(respjson);
+
+	$.ajax({
+		url: "input-product-list.aspx/ImportInput",
+		data: '{cnpj: ' + user[0].cpf_cnpj + '}',
+		dataType: "json",
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		success: function (responses) {
+			alert(responses.d);
+			if (responses.d == "OK") {
+				retorno = "OK";
+			} else {
+				retorno = "NO";
+			}
+		}
+	});
+
+	return retorno;
 }
 
 function getNumberNote() {
 	let text = $('#note-number').val();
 	let result = text.substring(2);
-
-	alert(result);
 }
 
 const inputEle = document.getElementById('note-number');
@@ -237,6 +257,10 @@ inputEle.addEventListener('keyup', function (e) {
 
 		window.document.getElementById('note-number').value = note;
 		window.document.getElementById('input-cnpj').value = cnpj;
+
+		var documents = [{ "cnpj": cnpj, "note": note }];
+
+		localStorage.setItem("documents", JSON.stringify(documents));
 
 		var maskCpfOuCnpj = IMask(document.getElementById('input-cnpj'), {
 			mask: [
@@ -254,3 +278,214 @@ inputEle.addEventListener('keyup', function (e) {
 	}
 });
 
+function getInputUpdate(id) {
+	produto_id = 0;
+	$.ajax({
+		url: "input-product-list.aspx/getProductsInputId",
+		data: '{id: ' + id + '}',
+		dataType: "json",
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		success: function (responses) {
+			var object = JSON.parse(responses.d);
+
+			if (!object.d) {
+
+				var html_title = '<h5 class="modal-title">ALTERAR PRODUTO DE ENTRADA:  ' + object[0].description + '</h5>';
+
+				window.document.getElementById('modal-title-product').innerHTML = html_title;
+				window.document.getElementById('id-update').value = object[0].id;
+				window.document.getElementById('note-number-update').value = object[0].note_number;
+				window.document.getElementById('input-cnpj-update').value = object[0].cpf_cnpj;
+				window.document.getElementById('product-description-update').value = object[0].description;
+				window.document.getElementById('product-price-update').value = object[0].price;
+				window.document.getElementById('product-code-update').value = object[0].barcode;
+				window.document.getElementById('product-unity-update').value = object[0].unity;
+				window.document.getElementById('product-input-update').value = object[0].quantity;
+				window.document.getElementById('product-prive-cost-update').value = object[0].price_cost;
+
+				produto_id = object[0].produto_id;
+
+				var maskCpfOuCnpj = IMask(document.getElementById('input-cnpj-update'), {
+					mask: [
+						{
+							mask: '000.000.000-00',
+							maxLength: 11
+						},
+						{
+							mask: '00.000.000/0000-00'
+						}
+					]
+				});
+
+				$('#defaultModal').modal('toggle');
+
+			} else {
+
+			}
+		}
+	});
+}
+
+function inputUpdate() {
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-success',
+			cancelButton: 'btn btn-danger'
+		},
+		buttonsStyling: false
+	})
+
+	swalWithBootstrapButtons.fire({
+		title: "Alterar dados de Entrada de produto da empresa " + user[0].name_reason,
+		text: window.document.getElementById('product-description-update').value + "!",
+		icon: 'question',
+		showCancelButton: true,
+		confirmButtonText: 'sim, Alterar!',
+		cancelButtonText: 'Não, cancelar!',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.isConfirmed) {
+			if (importProduct() == true) {
+
+				inputUpdateSave();
+			}
+
+		} else if (
+			result.dismiss === Swal.DismissReason.cancel
+		) {
+			swalWithBootstrapButtons.fire(
+				'Cancelado',
+				'Operação de Alteração da entrada selecionada foi cancelado :)',
+				'error'
+			)
+		}
+	});
+}
+
+function inputDelete(id) {
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-success',
+			cancelButton: 'btn btn-danger'
+		},
+		buttonsStyling: false
+	})
+
+	swalWithBootstrapButtons.fire({
+		title: "Deletar dados de Entrada de produto da empresa " + user[0].name_reason,
+		text: window.document.getElementById('product-description-update').value + "!",
+		icon: 'question',
+		showCancelButton: true,
+		confirmButtonText: 'sim, Deletar!',
+		cancelButtonText: 'Não, Cancelar!',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.isConfirmed) {
+			if (importProduct() == true) {
+				getInputDelete(id);
+			}
+
+		} else if (
+			result.dismiss === Swal.DismissReason.cancel
+		) {
+			swalWithBootstrapButtons.fire(
+				'Cancelado',
+				'Operação de Alteração da entrada selecionada foi cancelado :)',
+				'error'
+			)
+		}
+	});
+}
+
+function inputUpdateSave() {
+
+	const respjson = localStorage.getItem("listusers");
+	const user = JSON.parse(respjson);
+
+	var id = parseInt(window.document.getElementById('id-update').value);
+	var qtde = parseFloat(window.document.getElementById('product-input-update').value);
+	var description = window.document.getElementById('product-description-update').value;
+	var note_number = window.document.getElementById('note-number-update').value;
+	var cnpj = window.document.getElementById('input-cnpj-update').value;
+	var barcode = window.document.getElementById('product-code-update').value;
+	var price = window.document.getElementById('product-price-update').value;
+	var price_cost = window.document.getElementById('product-prive-cost-update').value;
+
+	if (!note_number) {
+		$.notify("Atenção, Informe o numero da nota fiscal!", "info");
+		$("#note-number").focus();
+	}
+	if (!cnpj) {
+		$.notify("Atenção, Informe o CNPJ do fornecedor!", "info");
+		$("#note-number").focus();
+	}
+	else if (parseFloat(qtde) == 0 || qtde == null) {
+		$.notify("Atenção, Informe Quanitdade desejada de Entrada do produto: " + description + "  !", "info");
+
+		input_clear();
+	} else {
+
+		var data = {
+			inputs:
+			{
+				id: id,
+				quantity: qtde,
+				cpf_cnpj: cnpj,
+				note_number: note_number,
+				barcode: barcode,
+				price: price,
+				price_cost: price_cost,
+				produto_id: produto_id,
+			}
+		};
+		$.ajax({
+			url: "input-product-list.aspx/productsInputUpdate",
+			data: JSON.stringify(data),
+			dataType: "json",
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			success: function (responses) {
+
+				if (parseInt(id) > 0) {
+
+					$.notify("Sucesso, Entrada do produto selecionado foi Alterado com sucesso!", "success");
+
+					getProductInput();
+
+					$('#defaultModal').modal('hide');
+
+					input_clear();
+
+					return 1;
+				}
+				else {
+					$.notify("Error, Erro ao inserir um novo item da entrada do produto: " + description + "  !", "error");
+
+					return 0;
+				}
+			}
+		});
+	}
+}
+
+function getInputDelete(id, description) {
+
+	$.ajax({
+		url: "input-product-list.aspx/InputDeleteId",
+		data: '{id: ' + id + '}',
+		dataType: "json",
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		success: function (responses) {
+			var object = JSON.parse(responses.d);
+
+			$.notify("Sucesso, Entrada do produto " + description + "selecionado foi Deletado com sucesso!", "success");
+			const myTimeout = setTimeout(myGreeting, 5000);
+		}
+	});
+}
+
+function myGreeting() {
+	location.href = 'input-product-list.aspx';
+}

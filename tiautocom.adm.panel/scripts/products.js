@@ -72,6 +72,9 @@ function getproducts(department_id) {
 			inventory_all = 0;
 
 			if (object !== null) {
+
+				getDocumentsInput();
+
 				inventory_tot = object.length;
 				inventory_all = object.length;
 
@@ -170,6 +173,7 @@ function tableclean() {
 
 function get_html_descripitions() {
 
+
 	let html_descripitions = '<ul class="nav nav-pillsa justify-content-start" style="color: #000000">' +
 		'<li class="nav-item">' +
 		'<a class="nav-link active bg-transparent pr-2 pl-0 text-primary" onclick="getestoque(200)">Todos <span class="badge badge-pill bg-primary text-white ml-2">' + inventory_all + '</span></a>' +
@@ -258,9 +262,9 @@ function getestoque(_status) {
 						'<td>#' + object[i].id + '</td>' +
 						'<td>' + object[i].codigo_barras + '</td>' +
 						'<td>' + object[i].descricao + '</td>' +
+						'<td>' + object[i].unidade + '</td>' +
 						'<td>' + object[i].preco + '</td>' +
 						'<td>' + object[i].estoque + '</td>' +
-						'<td>' + object[i].unidade + '</td>' +
 						'<td>' + object[i].custo + '</td>' +
 						tag_estatus +
 						'<td>' +
@@ -290,9 +294,9 @@ function getestoque(_status) {
 					'<th>ID</th>' +
 					'<th>Codigo Barras</th>' +
 					'<th>Nome Produto</th>' +
+					'<th>Unidade</th>' +
 					'<th>Preço</th>' +
 					'<th>Estoque</th>' +
-					'<th>Unidade</th>' +
 					'<th>Custo</th>' +
 					'<th>Status</th>' +
 					'<th>Action</th>' +
@@ -345,10 +349,37 @@ function showmodalproduct(id, codigo, produto) {
 
 			window.document.getElementById('product-input').value = "0,000";
 
-			$("#note-number").val("");
-			$("#input-cnpj").val("");
-			$("#note-number").focus()
+			getDocumentsInput();
 		}
 	});
+}
+
+
+function getDocumentsInput() {
+	const respjson = localStorage.getItem("documents");
+	const user = JSON.parse(respjson);
+
+	if (user == null) {
+		$("#note-number").val("");
+		$("#input-cnpj").val("");
+		$("#note-number").focus()
+	} else {
+		window.document.getElementById('note-number').value = user[0].note;
+		window.document.getElementById('input-cnpj').value = user[0].cnpj;
+
+		var maskCpfOuCnpj = IMask(document.getElementById('input-cnpj'), {
+			mask: [
+				{
+					mask: '000.000.000-00',
+					maxLength: 11
+				},
+				{
+					mask: '00.000.000/0000-00'
+				}
+			]
+		});
+
+		$("#note-number").focus()
+	}
 }
 

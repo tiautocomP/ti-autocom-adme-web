@@ -22,5 +22,7 @@ namespace tiautocom.transfer.objects
 		public string note_number { get; set; }
 		public string price_cost { get; set; }
 		public string total { get; set; }
+		public string inventory { get; set; }
+		public bool input_open { get; set; }
 	}
 }

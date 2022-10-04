@@ -14,7 +14,6 @@ namespace tiautocom.data.access
 		SqlCommand comandoSql = new SqlCommand();
 		StringBuilder sql = new StringBuilder();
 		DataTable datatable = new DataTable();
-
 		public List<Produtcs> GetProdutoAll(Produtcs produtcs)
 		{
 			try
@@ -81,7 +80,6 @@ namespace tiautocom.data.access
 				throw new Exception(ex.Message);
 			}
 		}
-
 		public List<Produtcs> getproductId(int id)
 		{
 			try

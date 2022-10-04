@@ -92,11 +92,8 @@
 						<div class="col-md-auto ml-auto text-right">
 							<div id="total-note"></div>
 						</div>
-
 						<hr />
 						<button class="btn btn-primary" type="button" onclick="exportProduct()">Exportar Produtos</button>
-
-
 						<nav aria-label="Table Paging" class="my-3">
 							<ul class="pagination justify-content-end mb-0">
 								<li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -106,7 +103,6 @@
 								<li class="page-item"><a class="page-link" href="#">Next</a></li>
 							</ul>
 						</nav>
-
 					</div>
 				</div>
 				<!-- .row -->
@@ -218,6 +214,86 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- .container-fluid -->
+			<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" id="defaultModal">
+				<div class="modal-dialog modal-xl" role="document" id="modal-larges">
+
+					<div class="modal-content">
+						<div class="modal-body">
+							<div class="modal-header">
+								<%--//title--%>
+
+								<div id="modal-title-product"></div>
+
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="col-md-12">
+								<form class="needs-validation" novalidate>
+									<br />
+									<div class="form-row">
+										<div class="col-md-2 mb-3">
+											<label for="product-price">Código</label>
+											<input type="text" id="id-update" class="form-control" readonly="">
+										</div>
+
+										<div class="col-md-2 mb-3">
+											<label for="product-price">Numero da Nota</label>
+											<input type="text" id="note-number-update" class="form-control" maxlength="44">
+										</div>
+										<div class="col-md-2 mb-3">
+											<label for="input-cnpj">CNPJ</label>
+											<input type="text" id="input-cnpj-update" class="form-control">
+										</div>
+
+										<div class="col-md-2 mb-3">
+											<label for="product-price">Código de barras</label>
+											<input type="text" id="product-code-update" class="form-control" readonly="">
+										</div>
+
+										<div class="col-md-2 mb-3">
+											<label for="product-price">Unidade</label>
+											<input type="text" id="product-unity-update" class="form-control" readonly="">
+										</div>
+
+										<div class="col-md-12 mb-3">
+											<label for="product-description">Descrição do Produto</label>
+											<input type="text" id="product-description-update" class="form-control" readonly="">
+										</div>
+
+
+										<div class="col-md-2 mb-3">
+											<label for="product-price input-money">R$ Preço</label>
+											<input type="text" id="product-price-update" class="form-control" value="0,00" style="text-align: right" onkeyup="formatarMoedaPreco();">
+										</div>
+										<div class="col-md-2 mb-3">
+											<label for="product-price">Estoque</label>
+											<input type="text" id="product-inventory-update" class="form-control" value="0,00" style="text-align: right" readonly="readonly">
+										</div>
+
+										<div class="col-md-2 mb-3">
+											<label for="product-prive-cost">R$ Custo</label>
+											<input type="text" id="product-prive-cost-update" class="form-control" value="0,000" style="text-align: right" onkeyup="formatarMoedaCusto();">
+										</div>
+
+										<div class="col-md-4 mb-3"></div>
+
+										<div class="col-md-2 mb-3">
+											<label for="product-input">Quantidade Entrada</label>
+											<input type="text" id="product-input-update" class="form-control" placeholder="" value="0,00" style="text-align: right" onkeyup="formatarMoedaQuantidade();">
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn mb-2 btn-primary" data-dismiss="" onclick="inputUpdate()">Salvar Alteração</button>
+								<button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Sair</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -352,6 +428,7 @@
 	<script src='js/dropzone.min.js'></script>
 	<script src='js/uppy.min.js'></script>
 	<script src='js/quill.min.js'></script>
+	<script src="https://unpkg.com/imask"></script>
 	<script>
 		$('.select2').select2(
 			{
@@ -557,8 +634,40 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-56159088-1');
 
-		function formatarMoeda() {
-			var elemento = document.getElementById('product-input');
+		function formatarMoedaQuantidade() {
+			var elemento = document.getElementById('product-input-update');
+			var valor = elemento.value;
+
+			valor = valor + '';
+			valor = parseInt(valor.replace(/[\D]+/g, ''));
+			valor = valor + '';
+			valor = valor.replace(/([0-9]{3})$/g, ",$1");
+
+			if (valor.length > 6) {
+				valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+			}
+
+			elemento.value = valor;
+		}
+
+		function formatarMoedaPreco() {
+			var elemento = document.getElementById('product-price-update');
+			var valor = elemento.value;
+
+			valor = valor + '';
+			valor = parseInt(valor.replace(/[\D]+/g, ''));
+			valor = valor + '';
+			valor = valor.replace(/([0-9]{3})$/g, ",$1");
+
+			if (valor.length > 6) {
+				valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+			}
+
+			elemento.value = valor;
+		}
+
+		function formatarMoedaCusto() {
+			var elemento = document.getElementById('product-prive-cost-update');
 			var valor = elemento.value;
 
 			valor = valor + '';

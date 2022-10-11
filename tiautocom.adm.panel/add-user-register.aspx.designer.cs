@@ -10,6 +10,6 @@
 namespace tiautocom.adm.panel {
     
     
-    public partial class products_list {
+    public partial class add_user_register {
     }
 }

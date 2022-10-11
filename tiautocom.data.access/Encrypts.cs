@@ -45,28 +45,38 @@ namespace tiautocom.data.access
         {
             try
             {
-                string textToDecrypt = text;
-                string ToReturn = "";
-                string publickey = pk;
-                string secretkey = sk;
-                byte[] privatekeyByte = { };
-                privatekeyByte = System.Text.Encoding.UTF8.GetBytes(secretkey);
-                byte[] publickeybyte = { };
-                publickeybyte = System.Text.Encoding.UTF8.GetBytes(publickey);
-                MemoryStream ms = null;
-                CryptoStream cs = null;
-                byte[] inputbyteArray = new byte[textToDecrypt.Replace(" ", "+").Length];
-                inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
-                using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+                if (text != "")
                 {
-                    ms = new MemoryStream();
-                    cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
-                    cs.Write(inputbyteArray, 0, inputbyteArray.Length);
-                    cs.FlushFinalBlock();
-                    Encoding encoding = Encoding.UTF8;
-                    ToReturn = encoding.GetString(ms.ToArray());
+
+
+                    string textToDecrypt = text;
+                    string ToReturn = "";
+                    string publickey = pk;
+                    string secretkey = sk;
+                    byte[] privatekeyByte = { };
+                    privatekeyByte = System.Text.Encoding.UTF8.GetBytes(secretkey);
+                    byte[] publickeybyte = { };
+                    publickeybyte = System.Text.Encoding.UTF8.GetBytes(publickey);
+                    MemoryStream ms = null;
+                    CryptoStream cs = null;
+                    byte[] inputbyteArray = new byte[textToDecrypt.Replace(" ", "+").Length];
+                    inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
+                    using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+                    {
+                        ms = new MemoryStream();
+                        cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
+                        cs.Write(inputbyteArray, 0, inputbyteArray.Length);
+                        cs.FlushFinalBlock();
+                        Encoding encoding = Encoding.UTF8;
+                        ToReturn = encoding.GetString(ms.ToArray());
+                    }
+                    return ToReturn;
                 }
-                return ToReturn;
+				else
+				{
+                    return "";
+				}
+             
             }
             catch (Exception ae)
             {

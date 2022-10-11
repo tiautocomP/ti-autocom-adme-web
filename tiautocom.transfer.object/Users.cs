@@ -6,59 +6,60 @@ using System.Threading.Tasks;
 
 namespace tiautocom.transfer.objects
 {
-    public class Users
-    {
-        #region person
+	public class Users
+	{
+		#region person
 
-        public int person_id { get; set; }
-        public string cpf_cnpj { get; set; }
-        public string name_reason { get; set; }
-        public DateTime person_registration_date { get; set; }
-        public string rg_ie { get; set; }
+		public int person_id { get; set; }
+		public string cpf_cnpj { get; set; }
+		public string name_reason { get; set; }
+		public DateTime person_registration_date { get; set; }
+		public string rg_ie { get; set; }
 
-        #endregion
+		#endregion
 
-        #region company
+		#region company
 
-        public string company_name { get; set; }
-        public int company_id { get; set; }
-        public string company_logo { get; set; }
+		public string company_name { get; set; }
+		public int company_id { get; set; }
+		public string company_logo { get; set; }
 
-        #endregion
+		#endregion
 
-        #region user
+		#region user
 
-        public int user_id { get; set; }
-        public string user_name { get; set; }
-        public bool user_active { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public DateTime user_registration_date { get; set; }
+		public int user_id { get; set; }
+		public string user_name { get; set; }
+		public int user_active { get; set; }
+		public string email { get; set; }
+		public string password { get; set; }
+		public string user_registration_date { get; set; }
+		public int user_type_id { get; set; }
 
-        #endregion
+		#endregion
 
-        #region user type
+		#region user type
 
-        public int user_type_id { get; set; }
-        public string user_type_description { get; set; }
-        public bool user_type_active { get; set; }
-        public bool action_insert { get; set; }
-        public bool action_update { get; set; }
-        public bool action_delete { get; set; }
+		public int id_user_type { get; set; }
+		public string user_type_description { get; set; }
+		public bool user_type_active { get; set; }
+		public bool action_insert { get; set; }
+		public bool action_update { get; set; }
+		public bool action_delete { get; set; }
 
-        #endregion
+		#endregion
 
-        #region address
+		#region address
 
-        public string city { get; set; }
-        public string complement { get; set; }
-        public string district { get; set; }
-        public string note { get; set; }
-        public string number { get; set; }
-        public string public_place { get; set; }
-        public string state { get; set; }
-        public string zip_code { get; set; }
+		public string city { get; set; }
+		public string complement { get; set; }
+		public string district { get; set; }
+		public string note { get; set; }
+		public string number { get; set; }
+		public string public_place { get; set; }
+		public string state { get; set; }
+		public string zip_code { get; set; }
 
-        #endregion
-    }
+		#endregion
+	}
 }

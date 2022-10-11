@@ -87,6 +87,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="add-user-register.aspx" />
     <Content Include="assets\avatars\sem-image.png" />
     <Content Include="assets\images\sem-image.png" />
     <Content Include="input-product-list.aspx" />
@@ -100,6 +101,7 @@
     <Content Include="fonts\feather.eot" />
     <Content Include="fonts\feather.ttf" />
     <Content Include="fonts\feather.woff" />
+    <None Include="Properties\PublishProfiles\adme.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -183,9 +185,19 @@
     <Content Include="scripts\notify.js" />
     <Content Include="scripts\products.js" />
     <Content Include="scripts\protect-index.js" />
+    <Content Include="scripts\user-list.js" />
+    <Content Include="scripts\user-type.js" />
+    <Content Include="user-list.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="add-user-register.aspx.cs">
+      <DependentUpon>add-user-register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="add-user-register.aspx.designer.cs">
+      <DependentUpon>add-user-register.aspx</DependentUpon>
+    </Compile>
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -220,6 +232,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="user-list.aspx.cs">
+      <DependentUpon>user-list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user-list.aspx.designer.cs">
+      <DependentUpon>user-list.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\tiautocom.business.rule\tiautocom.business.rule.csproj">
@@ -231,7 +250,10 @@
       <Name>tiautocom.transfer.objects</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="add\" />
+    <Folder Include="list\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -11,7 +11,7 @@ namespace tiautocom.adm.panel
 {
 
 
-	public partial class index
+	public partial class add_product
 	{
 	}
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="products-list.aspx.cs" Inherits="tiautocom.adm.panel.products_list" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="user-type-list.aspx.cs" Inherits="tiautocom.adm.panel.user_type_list" %>
 
 <!doctype html>
 <html lang="pt-br">
@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link rel="icon" href="favicon.ico">
-	<title>Entrada produto simples</title>
+	<title>rede sete - Alteração Tipo de Usuario</title>
 	<!-- Simple bar CSS -->
 	<link rel="stylesheet" href="css/simplebar.css">
 	<!-- Fonts CSS -->
@@ -24,14 +24,12 @@
 	<link rel="stylesheet" href="css/app-light.css" id="lightTheme">
 	<link rel="stylesheet" href="css/app-dark.css" id="darkTheme" disabled="">
 
-	<link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" rel="stylesheet" />
-	<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css" rel="stylesheet" />
-	<link href="//cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" rel="stylesheet" />
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+
+	<script src="http://momentjs.com/downloads/moment.min.js"></script>
+	<script src="https://momentjs.com/downloads/moment-timezone-with-data.js"></script>
 </head>
 <body class="vertical  light  ">
 	<div class="wrapper">
@@ -72,14 +70,14 @@
 							</div>
 						</div>
 						<hr />
-						<h2 class="h3 mb-3 page-title">Lista de Produtos</h2>
+						<h2 class="h3 mb-3 page-title">Lista Tipo de Usuários</h2>
 						<div class="row mb-4 items-align-center">
 							<div class="col-md">
 								<div class="html_descripitions" id="html_descripitions"></div>
 							</div>
 							<div class="col-md-auto ml-auto text-right">
 								<button type="button" class="btn" data-toggle="modal" data-target=".modal-slide"><span class="fe fe-filter fe-16 text-muted"></span></button>
-								<button type="button" class="btn" onclick="location.href='products-list.aspx';"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
+								<button type="button" class="btn" onclick="location.href='user-type-list.aspx';"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
 							</div>
 						</div>
 						<!-- Slide Modal -->
@@ -94,25 +92,17 @@
 									</div>
 									<div class="modal-body">
 										<div class="p-2">
-											<div class="form-group my-4">
-												<p class="mb-2"><strong>Lista de Departamentos</strong></p>
-												<label for="multi-select2" class="sr-only"></label>
-												<div id="multi-select-department"></div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn mb-2 btn-primary btn-block" onclick="getprodutctsdepartament()">Pesquisar Departamento</button>
-											</div>
 
 											<!-- form-group -->
 											<div class="form-group my-6">
 												<p class="mb-6">
-													<strong>Descrição/Codigo de barras</strong>
+													<strong>Descrição Tipo do Usuário</strong>
 												</p>
 												<div>
-													<input id="search-descriptions" class="form-control mr-sm-6 bg-transparent border-0 pl-6 text-muted" type="search" placeholder="Descrição Produto..." aria-label="Search">
+													<input id="input-user-search" class="form-control mr-sm-6 bg-transparent border-0 pl-6 text-muted" type="search" placeholder="Informe Nome do usuário" aria-label="Search">
 												</div>
 												<div class="modal-footer">
-													<button type="button" class="btn mb-2 btn-secondary btn-block" onclick="getprodutctDescCodBarras()">Pesquisar</button>
+													<button type="button" class="btn mb-2 btn-secondary btn-block" onclick="userSearch()">Pesquisar</button>
 												</div>
 											</div>
 										</div>
@@ -122,7 +112,7 @@
 							</div>
 						</div>
 
-						<div id="table-products"></div>
+						<div id="table-users"></div>
 
 						<nav aria-label="Table Paging" class="my-3">
 							<ul class="pagination justify-content-end mb-0">
@@ -137,7 +127,7 @@
 				</div>
 				<!-- .row -->
 			</div>
-			<!-- .container-fluid -->
+
 			<div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-sm" role="document">
 					<div class="modal-content">
@@ -222,55 +212,44 @@
 								</button>
 							</div>
 							<div class="col-md-12">
-								<form class="needs-validation" novalidate>
-									<br />
-									<div class="form-row">
-										<div class="col-md-2 mb-3">
-											<label for="product-price">Numero da Nota</label>
-											<input type="text" id="note-number" class="form-control" maxlength="44">
-										</div>
-										<div class="col-md-2 mb-3">
-											<label for="input-cnpj">CNPJ</label>
-											<input type="text" id="input-cnpj" class="form-control">
-										</div>
+								<div class="row">
+									<div class="col-md-12">
+										<form class="needs-validation" novalidate>
+											<br />
+											<div class="form-row">
+												<div class="col-md-2 mb-3">
+													<label for="input-number-int">Código</label>
+													<input type="text" id="input-number-int" class="form-control" readonly="readonly" value="0">
+												</div>
+												<div class="col-md-10 mb-3">
+													<label for="input-description">*Desscrição</label>
+													<input type="text" id="input-description" class="form-control" maxlength="14">
+												</div>
+												<div class="form-group col-md-3 mb-3">
+													<label for="select-save">**Salvar dados</label>
+													<div id="select-save"></div>
 
-										<div class="col-md-2 mb-3">
-											<label for="product-price">Código de barras</label>
-											<input type="text" id="product-code" class="form-control" readonly="">
-										</div>
-
-										<div class="col-md-12 mb-3">
-											<label for="product-description">Descrição do Produto</label>
-											<input type="text" id="product-description" class="form-control" readonly="">
-										</div>
-
-
-										<div class="col-md-2 mb-3">
-											<label for="product-price input-money">R$ Preço</label>
-											<input type="text" id="product-price" class="form-control" value="0,00" style="text-align: right" onkeyup="formatarMoedaPreco();">
-										</div>
-										<div class="col-md-2 mb-3">
-											<label for="product-price">Estoque</label>
-											<input type="text" id="product-inventory" class="form-control" value="0,00" style="text-align: right" readonly="readonly">
-										</div>
-
-										<div class="col-md-2 mb-3">
-											<label for="product-prive-cost">R$ Custo</label>
-											<input type="text" id="product-prive-cost" class="form-control" value="0,000" style="text-align: right" onkeyup="formatarMoedaCusto();">
-										</div>
-
-										<div class="col-md-4 mb-3"></div>
-
-										<div class="col-md-2 mb-3">
-											<label for="product-input">Quantidade Entrada</label>
-											<input type="text" id="product-input" class="form-control" placeholder="" value="0,00" style="text-align: right" onkeyup="formatarMoedaQuantidade();">
-										</div>
+												</div>
+												<div class="form-group col-md-3 mb-3">
+													<label for="select-delete">**Deletar dados</label>
+													<div id="select-delete"></div>
+												</div>
+												<div class="form-group col-md-3 mb-3">
+													<label for="select-update">**Alterar dados</label>
+													<div id="select-update"></div>
+												</div>
+												<div class="form-group col-md-3 mb-3">
+													<label for="select-active">**Status</label>
+													<div id="select-active"></div>
+												</div>
+											</div>
+										</form>
 									</div>
-								</form>
+								</div>
 							</div>
 
 							<div class="modal-footer">
-								<button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Sair</button>
+								<button type="button" class="btn mb-2 btn-danger" data-dismiss="modal">Sair</button>
 								<div id="modal-footer"></div>
 							</div>
 						</div>
@@ -583,28 +562,13 @@
 			color: #000000;
 		}
 
-		input, button, select, optgroup, textarea {
-			margin: 4px;
-			font-family: inherit;
-			font-size: inherit;
-			line-height: inherit;
-		}
-
-		.swal2-actions {
-			display: flex;
-			z-index: 1;
-			box-sizing: border-box;
-			flex-wrap: wrap;
-			align-items: center;
-			justify-content: center;
-			width: auto;
-			margin: 1.25em auto 0;
-			padding: 0;
+		.modal {
+			height: 100%;
 		}
 	</style>
 	<script src="scripts/menu-html.js"></script>
-	<script src="scripts/products.js"></script>
 	<script src="scripts/notify.js"></script>
-	<script src="scripts/input-products.js"></script>
+	<script src="scripts/user-type-list.js"></script>
 </body>
 </html>
+

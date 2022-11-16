@@ -55,11 +55,11 @@ namespace tiautocom.adm.panel
 		}
 
 		[WebMethod]
-		public static string InputDeleteId(int id)
+		public static string InputDeleteId(Products products)
 		{
 			InputBusinessRule inputBusinessRule = new InputBusinessRule();
 
-			string sJSON = inputBusinessRule.InputDeleteId(id);
+			string sJSON = inputBusinessRule.InputDeleteId(products);
 
 			return sJSON;
 		}

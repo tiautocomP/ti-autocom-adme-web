@@ -24,6 +24,11 @@ namespace tiautocom.business.rule
 			}
 		}
 
+		public List<Inputs> getInformations(string documents)
+		{
+			throw new NotImplementedException();
+		}
+
 		public List<Inputs> getProductsInput(string documents)
 		{
 			try
@@ -63,12 +68,12 @@ namespace tiautocom.business.rule
 			}
 		}
 
-		public string InputDeleteId(int id)
+		public string InputDeleteId(Products products)
 		{
 			try
 			{
 				inputAccessData = new InputAccessData();
-				return inputAccessData.InputDeleteId(id);
+				return inputAccessData.InputDeleteId(products);
 			}
 			catch (Exception ex)
 			{

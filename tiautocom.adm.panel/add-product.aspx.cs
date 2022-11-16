@@ -10,14 +10,14 @@ using tiautocom.transfer.objects;
 
 namespace tiautocom.adm.panel
 {
-    public partial class index : System.Web.UI.Page
-    {
+	public partial class add_product : System.Web.UI.Page
+	{
 		[WebMethod]
-		public static string getInformations(string documents)
+		public static string SaveProduct(Products produtcs)
 		{
-			InputBusinessRule inputBusinessRule = new InputBusinessRule();
+			Produtcsbusinessrule produtcsbusinessrule = new Produtcsbusinessrule();
 
-			List<Inputs> list = inputBusinessRule.getInformations(documents);
+			List<Products> list = produtcsbusinessrule.SaveProduct(produtcs);
 
 			System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 

@@ -23,6 +23,7 @@ namespace tiautocom.transfer.objects
 		public string company_name { get; set; }
 		public int company_id { get; set; }
 		public string company_logo { get; set; }
+		public string crt { get; set; }
 
 		#endregion
 
@@ -46,6 +47,7 @@ namespace tiautocom.transfer.objects
 		public bool action_insert { get; set; }
 		public bool action_update { get; set; }
 		public bool action_delete { get; set; }
+		public bool action_save { get; set; }
 
 		#endregion
 

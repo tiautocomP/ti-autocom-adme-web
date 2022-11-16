@@ -87,7 +87,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="add-company.aspx" />
+    <Content Include="add-product.aspx" />
     <Content Include="add-user-register.aspx" />
+    <Content Include="add-user-type-register.aspx" />
     <Content Include="assets\avatars\sem-image.png" />
     <Content Include="assets\images\sem-image.png" />
     <Content Include="input-product-list.aspx" />
@@ -178,25 +181,54 @@
     <Content Include="js\uppy.min.js" />
     <Content Include="login.aspx" />
     <Content Include="products-list.aspx" />
+    <Content Include="scripts\add-company.js" />
+    <Content Include="scripts\add-product.js" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="scripts\index.js" />
     <Content Include="scripts\input-products.js" />
     <Content Include="scripts\menu-html.js" />
     <Content Include="scripts\notify.js" />
     <Content Include="scripts\products.js" />
     <Content Include="scripts\protect-index.js" />
+    <Content Include="scripts\update-product.js" />
     <Content Include="scripts\user-list.js" />
+    <Content Include="scripts\user-type-add.js" />
+    <Content Include="scripts\user-type-list.js" />
     <Content Include="scripts\user-type.js" />
+    <Content Include="update-product.aspx" />
     <Content Include="user-list.aspx" />
+    <Content Include="user-type-list.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="add-company.aspx.cs">
+      <DependentUpon>add-company.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="add-company.aspx.designer.cs">
+      <DependentUpon>add-company.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="add-product.aspx.cs">
+      <DependentUpon>add-product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="add-product.aspx.designer.cs">
+      <DependentUpon>add-product.aspx</DependentUpon>
+    </Compile>
     <Compile Include="add-user-register.aspx.cs">
       <DependentUpon>add-user-register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="add-user-register.aspx.designer.cs">
       <DependentUpon>add-user-register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="add-user-type-register.aspx.cs">
+      <DependentUpon>add-user-type-register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="add-user-type-register.aspx.designer.cs">
+      <DependentUpon>add-user-type-register.aspx</DependentUpon>
     </Compile>
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
@@ -232,12 +264,26 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="update-product.aspx.cs">
+      <DependentUpon>update-product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="update-product.aspx.designer.cs">
+      <DependentUpon>update-product.aspx</DependentUpon>
+    </Compile>
     <Compile Include="user-list.aspx.cs">
       <DependentUpon>user-list.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="user-list.aspx.designer.cs">
       <DependentUpon>user-list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="user-type-list.aspx.cs">
+      <DependentUpon>user-type-list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user-type-list.aspx.designer.cs">
+      <DependentUpon>user-type-list.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

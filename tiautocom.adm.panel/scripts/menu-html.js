@@ -9,9 +9,23 @@ getmenu();
 getnav();
 getdate();
 
-function getmenu() {
+function getUser() {
+	const respjson = localStorage.getItem("listusers");
+	const user = JSON.parse(respjson);
 
-	var html_menu = '<nav class="vertnav navbar navbar-light">' +
+	window.document.getElementById('input-cpf-cnpj').value = user[0].cpf_cnpj;
+}
+
+function getmenu() {
+	var html_menu = "";
+	var html_menu_add = "";
+	if (user[0].action_save == true) {
+		html_menu_add = '<li class="nav-item">' +
+			'<a class="nav-link pl-3" href="add-company.aspx"><span class="ml-1 item-text">Cadastro de Empresa</span></a>' +
+			'</li>';
+	}
+
+	html_menu = '<nav class="vertnav navbar navbar-light">' +
 		'<!-- nav bar -->' +
 		'<div class="w-100 mb-4 d-flex">' +
 		'<a href="index.aspx">' +
@@ -28,9 +42,9 @@ function getmenu() {
 		'<li class="nav-item active">' +
 		'<a class="nav-link pl-3" href="./index.aspx"><span class="ml-1 item-text">Configurações</span></a>' +
 		'</li>' +
-		//'<li class="nav-item">' +
-		//    '<a class="nav-link pl-3" href="./dashboard-analytics.html"><span class="ml-1 item-text">Analytics</span></a>' +
-		//'</li>' +
+		html_menu_add
+		+
+
 		//'<li class="nav-item">' +
 		//    '<a class="nav-link pl-3" href="./dashboard-sales.html"><span class="ml-1 item-text">E-commerce</span></a>' +
 		//'</li>' +
@@ -50,25 +64,19 @@ function getmenu() {
 		'<li class="nav-item dropdown">' +
 		'<a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">' +
 		' <i class="fe fe-box fe-16"></i>' +
-		'<span class="ml-3 item-text">Cadastros</span>' +
-		'</a>' +
+		'<span class="ml-3 item-text">Cadastros</span></a>' +
 		'<ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">' +
-		'<li class="nav-item">' +
-		'<a class="nav-link pl-3" href="products-list.aspx"><span class="ml-1 item-text">Produto Unitário</span>' +
-		'</a>' +
-		'</li>' +
-		'<li class="nav-item">' +
-		'<a class="nav-link pl-3" href="./ui-typograpy.html"><span class="ml-1 item-text">Produtos XML</span></a>' +
-		'</li>' +
+
 		'<li class="nav-item">' +
 		'<a class="nav-link pl-3" href="add-user-register.aspx"><span class="ml-1 item-text">Usuário</span></a>' +
 		'</li>' +
-		//'<li class="nav-item">' +
-		//    '<a class="nav-link pl-3" href="./ui-buttons.html"><span class="ml-1 item-text">Buttons</span></a>' +
-		//'</li>' +
-		//'<li class="nav-item">' +
-		//    '<a class="nav-link pl-3" href="./ui-notification.html"><span class="ml-1 item-text">Notifications</span></a>' +
-		//'</li>' +
+		'<li class="nav-item">' +
+		'<a class="nav-link pl-3" href="add-user-type-register.aspx"><span class="ml-1 item-text">Tipo de Usuário</span></a>' +
+		'</li>' +
+		'<li class="nav-item">' +
+		'<a class="nav-link pl-3" href="add-product.aspx"><span class="ml-1 item-text">Produto</span></a>' +
+		'</li>' +
+
 		//'<li class="nav-item">' +
 		//    '<a class="nav-link pl-3" href="./ui-modals.html"><span class="ml-1 item-text">Modals</span></a>' +
 		//'</li>' +
@@ -86,38 +94,31 @@ function getmenu() {
 		'<span class="ml-3 item-text">Pesquisas</span>' +
 		'</a>' +
 		'<ul class="collapse list-unstyled pl-4 w-100" id="forms">' +
-		'<li class="nav-item">' +
-		'<a class="nav-link pl-3" href="input-product-list.aspx"><span class="ml-1 item-text">Entrada de Produtos</span></a>' +
-		'</li>' +
+
 		'<li class="nav-item">' +
 		'<a class="nav-link pl-3" href="user-list.aspx"><span class="ml-1 item-text">Usuários</span></a>' +
 		'</li>' +
-		//'<li class="nav-item">' +
-		//'<a class="nav-link pl-3" href="./form_validation.html"><span class="ml-1 item-text">Validation</span></a>' +
-		//'</li>' +
-		//'<li class="nav-item">' +
-		//'<a class="nav-link pl-3" href="./form_wizard.html"><span class="ml-1 item-text">Wizard</span></a>' +
-		//'</li>' +
-		//'<li class="nav-item">' +
-		//'<a class="nav-link pl-3" href="./form_layouts.html"><span class="ml-1 item-text">Layouts</span></a>' +
-		//'</li>' +
-		//'<li class="nav-item">' +
-		//'<a class="nav-link pl-3" href="./form_upload.html"><span class="ml-1 item-text">File upload</span></a>' +
-		//'</li>' +
-		//'</ul>' +
-		//'</li>' +
-		//'<li class="nav-item dropdown">' +
-		//'<a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">' +
-		//'<i class="fe fe-grid fe-16"></i>' +
-		//'<span class="ml-3 item-text">Tables</span>' +
-		//'</a>' +
-		//'<ul class="collapse list-unstyled pl-4 w-100" id="tables">' +
-		//'<li class="nav-item">' +
-		//'<a class="nav-link pl-3" href="./table_basic.html"><span class="ml-1 item-text">Basic Tables</span></a>' +
-		//'</li>' +
-		//'<li class="nav-item">' +
-		//'<a class="nav-link pl-3" href="./table_advanced.html"><span class="ml-1 item-text">Advanced Tables</span></a>' +
-		//'</li>' +
+		'<li class="nav-item">' +
+		'<a class="nav-link pl-3" href="user-type-list.aspx"><span class="ml-1 item-text">Tipos de usuário</span></a>' +
+		'</li>' +
+		'<li class="nav-item">' +
+		'<a class="nav-link pl-3" href="products-list.aspx"><span class="ml-1 item-text">Produtos</span></a>' +
+		'</li>' +
+		'</ul>' +
+		'</li>' +
+		'<li class="nav-item dropdown">' +
+		'<a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">' +
+		'<i class="fe fe-grid fe-16"></i>' +
+		'<span class="ml-3 item-text">Entradas</span></a>' +
+		'<ul class="collapse list-unstyled pl-4 w-100" id="tables">' +
+		'<li class="nav-item">' +
+		'<a class="nav-link pl-3" href="input-product-list.aspx"><span class="ml-1 item-text">Entrada de Produtos</span></a>' +
+		'</li>' +
+		'<a class="nav-link pl-3" href="products-list.aspx"><span class="ml-1 item-text">Produto Unitário</span></a>' +
+		'</li>' +
+		'<li class="nav-item">' +
+		'<a class="nav-link pl-3" href="./ui-typograpy.html"><span class="ml-1 item-text">Produtos XML</span></a>' +
+		'</li>' +
 		//'<li class="nav-item">' +
 		//'<a class="nav-link pl-3" href="./table_datatables.html"><span class="ml-1 item-text">Data Tables</span></a>' +
 		//'</li>' +

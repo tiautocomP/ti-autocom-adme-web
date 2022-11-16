@@ -5,6 +5,8 @@ let inventory_tot = 0;
 let inventory_all = 0;
 let html_descripitions;
 
+var descricao;
+
 getdepartment();
 
 function getdepartment() {
@@ -37,7 +39,6 @@ function getdepartment() {
 				postdepartment(action);
 
 				localStorage.setItem("department_list", JSON.stringify(object));
-
 			} else {
 				Swal.fire({
 					icon: 'error',
@@ -54,7 +55,7 @@ function getproducts(department_id) {
 	var data = {
 		produtcs:
 		{
-			departamento_id: department_id
+			num_departam: department_id
 		}
 	};
 	$.ajax({
@@ -95,7 +96,7 @@ function getproducts(department_id) {
 					}
 
 					tag_html +=
-						'<tr>' +
+						'<tr id="teste">' +
 						'<td class="align-center" >' +
 						'<div class="custom-control custom-checkbox" >' +
 						'<input type="checkbox" class="custom-control-input">' +
@@ -104,7 +105,7 @@ function getproducts(department_id) {
 						'</td>' +
 						'<td>#' + object[i].id + '</td>' +
 						'<td>' + object[i].codigo_barras + '</td>' +
-						'<td>' + object[i].descricao + '</td>' +
+						'<td id="descriao">' + object[i].descricao + '</td>' +
 						'<td>' + object[i].preco + '</td>' +
 						'<td>' + object[i].estoque + '</td>' +
 						'<td>' + object[i].unidade + '</td>' +
@@ -117,8 +118,8 @@ function getproducts(department_id) {
 						'</button>' +
 						'<div class="dropdown-menu dropdown-menu-right">' +
 						'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="showmodalproduct(' + object[i].id + ')">Entrada</a>' +
-						'<a class="dropdown-item" href="#">Remover</a>' +
-						'<a class="dropdown-item" href="#">Alterar</a>' +
+						'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="deleteProduto(' + object[i].id + ')">Remover</a>' +
+						'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="updatProduto(' + object[i].id + ')">Alteração</a>' +
 						'</div>' +
 						'</div>' +
 						'</td>' +
@@ -243,7 +244,7 @@ function getestoque(_status) {
 
 				for (var i = 0; i < object.length; i++) {
 
-					if (parseFloat(object[i].estoque) < 0) {
+					if (parseFloat(object[i].fupdatProduto) < 0) {
 						inventory_minus++;
 						tag_estatus = '<td><span class="dot dot-lg bg-danger mr-2"></span></td >';
 					} else if (parseFloat(object[i].estoque) == 0) {
@@ -278,7 +279,8 @@ function getestoque(_status) {
 						'<div class="dropdown-menu dropdown-menu-right">' +
 						'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="showmodalproduct(' + object[i].id + ')">Entrada</a>' +
 						'<a class="dropdown-item" href="#">Remover</a>' +
-						'<a class="dropdown-item" href="#">Entrada</a>' +
+						'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="updateProduct(' + object[i].id + ')">Alteração</a>' +
+
 						'</div>' +
 						'</div>' +
 						'</td>' +
@@ -357,7 +359,6 @@ function showmodalproduct(id, codigo, produto) {
 	});
 }
 
-
 function getDocumentsInput() {
 	const respjson = localStorage.getItem("documents");
 	const user = JSON.parse(respjson);
@@ -385,4 +386,170 @@ function getDocumentsInput() {
 		$("#note-number").focus()
 	}
 }
+
+function updatProduto(id) {
+	window.location = "update-product.aspx";
+
+	localStorage.setItem("product-id-update", id);
+}
+
+function deleteProduto(id) {
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-success',
+			cancelButton: 'btn btn-danger'
+		},
+		buttonsStyling: false
+	})
+
+	swalWithBootstrapButtons.fire({
+		title: "Deletar dados do produto selecionado ",
+		text: "",
+		icon: 'question',
+		showCancelButton: true,
+		confirmButtonText: 'sim, Deletar!',
+		cancelButtonText: 'Não, Cancelar!',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.isConfirmed) {
+
+			getProdutuctDelete(id);
+
+		} else if (
+			result.dismiss === Swal.DismissReason.cancel
+		) {
+			swalWithBootstrapButtons.fire(
+				'Cancelado',
+				'Operação de excluir produto selecionado foi cancelado :)',
+				'error'
+			)
+		}
+	});
+}
+
+function getprodutctDescCodBarras() {
+
+	var desc = window.document.getElementById('search-descriptions').value;
+
+	if (desc != "") {
+    	var data = {
+			produtcs:
+			{
+				descricao: desc,
+			}
+		};
+		$.ajax({
+			url: "products-list.aspx/getproductsallDesc",
+			data: JSON.stringify(data),
+			dataType: "json",
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			success: function (responses) {
+				var object = JSON.parse(responses.d);
+
+				let tag_html;
+				let tag_estatus;
+
+				inventory_zero = 0;
+				inventory_minus = 0;
+				inventory_plus = 0;
+				inventory_all = 0;
+
+				if (object !== null) {
+
+					getDocumentsInput();
+
+					inventory_tot = object.length;
+					inventory_all = object.length;
+
+					for (var i = 0; i < inventory_tot; i++) {
+
+						if (parseFloat(object[i].estoque) < 0) {
+							inventory_minus++;
+							tag_estatus = '<td><span class="dot dot-lg bg-danger mr-2"></span></td >';
+						} else if (parseFloat(object[i].estoque) == 0) {
+							inventory_zero++;
+							tag_estatus = '<td><span class="dot dot-lg bg-warning mr-2"></span></td >';
+						} else {
+							tag_estatus = '<td><span class="dot dot-lg bg-success mr-2"></span></td >';
+							inventory_plus++;
+						}
+
+						tag_html +=
+							'<tr id="teste">' +
+							'<td class="align-center" >' +
+							'<div class="custom-control custom-checkbox" >' +
+							'<input type="checkbox" class="custom-control-input">' +
+							'<label class="custom-control-label"></label>' +
+							'</div>' +
+							'</td>' +
+							'<td>#' + object[i].id + '</td>' +
+							'<td>' + object[i].codigo_barras + '</td>' +
+							'<td id="descriao">' + object[i].descricao + '</td>' +
+							'<td>' + object[i].preco + '</td>' +
+							'<td>' + object[i].estoque + '</td>' +
+							'<td>' + object[i].unidade + '</td>' +
+							'<td>' + object[i].custo + '</td>' +
+							tag_estatus +
+							'<td>' +
+							'<div class="dropdown">' +
+							'<button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+							'<span class="text-muted sr-only">Action</span>' +
+							'</button>' +
+							'<div class="dropdown-menu dropdown-menu-right">' +
+							'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="showmodalproduct(' + object[i].id + ')">Entrada</a>' +
+							'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="deleteProduto(' + object[i].id + ')">Remover</a>' +
+							'<a class="dropdown-item" data-toggle="modal" data-target="#" onclick="updatProduto(' + object[i].id + ')">Alteração</a>' +
+							'</div>' +
+							'</div>' +
+							'</td>' +
+							'</tr>';
+					}
+
+					let html = '<table class="table border table-hover bg-white">' +
+						'<thead>' +
+						'<tr role="row">' +
+						'<th> ' +
+						'<div class="custom-control custom-checkbox">' +
+						'<input type="checkbox" class="custom-control-input" id="all">' +
+						'<label class="custom-control-label" for="all"></label>' +
+						'</div>' +
+						'</th>' +
+						'<th>ID</th>' +
+						'<th>Codigo Barras</th>' +
+						'<th>Nome Produto</th>' +
+						'<th>Preço</th>' +
+						'<th>Estoque</th>' +
+						'<th>Unidade</th>' +
+						'<th>Custo</th>' +
+						'<th>Status</th>' +
+						'<th>Action</th>' +
+						'</tr>' +
+						'</thead>' +
+						'<tbody>' +
+						tag_html +
+						'</tbody>' +
+						'</table> ';
+
+					window.document.getElementById('table-products').innerHTML = html.replace('undefined', 'Cadastro individual de Produtos CNPJ: ' + user[0].cpf_cnpj);
+
+					get_html_descripitions();
+
+					localStorage.setItem("products_list", JSON.stringify(object));
+
+					window.document.getElementById('search-descriptions').value = "";
+
+				} else {
+					tableclean();
+					$.notify("Atenção, Não contém dados na tabela produto com departamento " + $('#multi-select-department').find(":selected").text().trim().toLowerCase() + "!", "error");
+				}
+			}
+		});
+	} else {
+		$.notify("Atenção, Campo pesquisa descrição não pode ser vázio!", "warn");
+	}
+}
+
+
+
 

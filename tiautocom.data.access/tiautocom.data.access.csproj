@@ -41,13 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompanyAcessDatas.cs" />
     <Compile Include="Connections.cs" />
     <Compile Include="DepartmenAccessData.cs" />
     <Compile Include="Encrypts.cs" />
     <Compile Include="InputAccessData.cs" />
     <Compile Include="ProductAccessData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserAccessDatas.cs" />
+    <Compile Include="UserAccessData.cs" />
+    <Compile Include="UserTypeAccessData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\tiautocom.transfer.object\tiautocom.transfer.objects.csproj">

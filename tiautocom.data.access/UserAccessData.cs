@@ -26,10 +26,10 @@ namespace tiautocom.data.access
 					connections.Open();
 
 					sql.Append("select p.id as person_id, p.cpf_cnpj, p.name_reason, p.registration_date as person_registration_date, p.rg_ie, ");
-					sql.Append("c.id as company_id, c.logo as company_logo, c.company_name, ");
+					sql.Append("c.id as company_id, c.logo as company_logo, c.company_name,  c.crt, ");
 					sql.Append("u.active as user_active, u.date_register, u.email, u.id as user_id, u.password, u.user_name, u.date_register as user_registration_date, ");
 					sql.Append("a.city, a.complement, a.district, a.note, a.number, a.public_place, a.state, a.zip_code, ");
-					sql.Append("ut.active as user_type_active, ut.description, ut.id as user_type_id, ut.action_insert, ut.action_update, ut.action_delete ");
+					sql.Append("ut.active as user_type_active, ut.description, ut.id as user_type_id, ut.action_update, ut.action_delete, ut.action_save ");
 					sql.Append("from person p ");
 					sql.Append("left join companys c on p.id = c.person_id ");
 					sql.Append("left join user_company uc on c.id = uc.company_id ");
@@ -44,9 +44,9 @@ namespace tiautocom.data.access
 
 					if (datatable.Rows.Count > 0)
 					{
-						var lista = new List<Users>();
-
 						Encrypts encrypt = new Encrypts();
+
+						var lista = new List<Users>();
 
 						lista.Add(new Users
 						{
@@ -61,6 +61,7 @@ namespace tiautocom.data.access
 							company_id = Convert.ToInt32(datatable.Rows[0]["company_id"].ToString()),
 							company_name = datatable.Rows[0]["company_name"].ToString().Trim(),
 							company_logo = datatable.Rows[0]["company_logo"].ToString().Trim(),
+							crt = datatable.Rows[0]["crt"].ToString().Trim(),
 
 							//user
 							user_id = Convert.ToInt32(datatable.Rows[0]["user_id"].ToString().Trim()),
@@ -73,9 +74,9 @@ namespace tiautocom.data.access
 							//uer type
 							user_type_id = Convert.ToInt32(datatable.Rows[0]["user_type_id"].ToString()),
 							user_type_description = datatable.Rows[0]["description"].ToString().Trim(),
-							action_insert = Convert.ToBoolean(datatable.Rows[0]["action_insert"].ToString()),
 							action_update = Convert.ToBoolean(datatable.Rows[0]["action_update"].ToString()),
 							action_delete = Convert.ToBoolean(datatable.Rows[0]["action_delete"].ToString()),
+							action_save = bool.Parse(datatable.Rows[0]["action_save"].ToString()),
 
 							//address
 							city = datatable.Rows[0]["city"].ToString().Trim(),
@@ -331,7 +332,7 @@ namespace tiautocom.data.access
 
 					comandoSql.Parameters.AddWithValue("@email", encrypt.Encrypt(users.email, pk, sk));
 					comandoSql.Parameters.AddWithValue("@password", encrypt.Encrypt(users.password, pk, sk));
-					comandoSql.Parameters.AddWithValue("@user_name", users.user_name);
+					comandoSql.Parameters.AddWithValue("@user_name", users.user_name.ToUpper());
 					comandoSql.Parameters.AddWithValue("@active", true);
 					comandoSql.Parameters.AddWithValue("@date_register", DateTime.Now);
 					comandoSql.Parameters.AddWithValue("@user_type_id", users.user_type_id);
@@ -356,7 +357,7 @@ namespace tiautocom.data.access
 
 						connections.Close();
 					}
-					catch(Exception ex)
+					catch (Exception)
 					{
 					}
 

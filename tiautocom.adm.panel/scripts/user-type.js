@@ -2,8 +2,6 @@
 
 function load() {
 	getProductInput();
-
-	window.document.getElementById('input-user-name').value = "";
 }
 
 function getProductInput() {
@@ -26,15 +24,17 @@ function getProductInput() {
 			if (object !== null) {
 
 				for (var i = 0; i < object.length; i++) {
-					values += '<option value="' + object[i].Id + '">' + object[i].description + '</option>';
+					values += '<option value="' + object[i].id + '">' + object[i].description + '</option>';
 				}
 
-				var html = '<select class="custom-select" id="company-select">' +
-					'<option selected>Selecione Tipo usuário</option>' +
+				var html = '<select class="custom-select" id="select-user-type">' +
+					'<option value="0" selected>Selecione Tipo usuário</option>' +
 					values +
 					'</select>';
 
 				window.document.getElementById('select-user-type').innerHTML = html;
+
+				clear();
 
 			} else {
 				$.notify("Atenção, Não contém dados na tabela Tipo de Usuário", "error");
@@ -54,16 +54,21 @@ function salvar() {
 	let user_name = window.document.getElementById('input-user-name').value;
 	let email = window.document.getElementById('input-user-email').value;
 	let password = window.document.getElementById('input-user-password').value;
-	let user_type_id = window.document.getElementById('company-select').value;
+	let user_type_id = $("#select-user-type option:selected").val();
+	let company_id = user[0].company_id;
 
-	if (user_type_id.trim() == "Selecione Tipo usuário") {
+	if (parseInt(user_type_id) == 0) {
 		$.notify("Atenção, Campo Tipo de usuário não pode ser nulo ou vázio!", "warning ");
-	} if (user_name == "") {
+		$("#select-user-type").focus();
+	} else if (user_name == "") {
 		$.notify("Atenção, Campo nome do usuário não pode ser nulo ou vázio!", "warning ");
-	} if (email == "") {
+		$("#input-user-name").focus();
+	} else if (email == "") {
 		$.notify("Atenção, Campo e-mail do usuário não pode ser nulo ou vázio!", "warning ");
-	} if (password == "") {
+		$("#input-user-email").focus();
+	} else if (password == "") {
 		$.notify("Atenção, Campo senha do usuário não pode ser nulo ou vázio!", "warning ");
+		$("#input-user-password").focus();
 	}
 	else {
 		var data = {
@@ -73,7 +78,7 @@ function salvar() {
 				email: email,
 				password: password,
 				user_type_id: user_type_id,
-				company_id: user[0].company_id,
+				company_id: company_id,
 			}
 		};
 		$.ajax({
@@ -97,4 +102,9 @@ function salvar() {
 
 function myGreeting() {
 	location.href = 'user-list.aspx';
+}
+
+function clear() {
+	document.getElementById('input-user-name').value = '';
+	document.getElementById('input-user-password').value = '';
 }

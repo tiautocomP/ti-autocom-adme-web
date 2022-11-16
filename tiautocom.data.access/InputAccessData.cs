@@ -25,9 +25,9 @@ namespace tiautocom.data.access
 				{
 					connections.Open();
 
-					sql.Append("insert into input (produto_id, usuario_id, date, quantity, input_open, cpf_cnpj, company_id, note_number, barcode, price, price_cost)");
+					sql.Append("insert into input (produto_id, usuario_id, date, quantity, input_open, cpf_cnpj, company_id, note_number, barcode, price, price_cost, cnpj_company)");
 					sql.Append("values");
-					sql.Append("(@produto_id, @usuario_id, @date, @quantity, 1, @cpf_cnpj, @company_id, @note_number, @barcode, @price, @price_cost)");
+					sql.Append("(@produto_id, @usuario_id, @date, @quantity, 1, @cpf_cnpj, @company_id, @note_number, @barcode, @price, @price_cost, @cnpj_company)");
 
 					comandoSql.CommandText = sql.ToString();
 					comandoSql.Connection = connections;
@@ -42,6 +42,7 @@ namespace tiautocom.data.access
 					comandoSql.Parameters.AddWithValue("@barcode", inputs.barcode);
 					comandoSql.Parameters.AddWithValue("@price", Convert.ToDecimal(inputs.price));
 					comandoSql.Parameters.AddWithValue("@price_cost", Convert.ToDecimal(inputs.price_cost));
+					comandoSql.Parameters.AddWithValue("@cnpj_company", inputs.cnpj_company.Replace("-","").Replace(".","").Replace("/","").Trim());
 
 					comandoSql.ExecuteNonQuery();
 
@@ -84,7 +85,7 @@ namespace tiautocom.data.access
 			}
 		}
 
-		public string InputDeleteId(int id)
+		public string InputDeleteId(Products products)
 		{
 			try
 			{
@@ -97,12 +98,12 @@ namespace tiautocom.data.access
 					comandoSql.CommandText = sql.ToString();
 					comandoSql.Connection = connections;
 
-					comandoSql.Parameters.AddWithValue("@id", id);
+					comandoSql.Parameters.AddWithValue("@id", products.id);
 
 					comandoSql.ExecuteNonQuery();
 				}
 
-				return id.ToString();
+				return products.id.ToString();
 			}
 			catch (Exception ex)
 			{
@@ -217,7 +218,7 @@ namespace tiautocom.data.access
 
 					sql.Append("select i.id, i.produto_id, usuario_id, i.date, i.quantity, i.input_open, i.cpf_cnpj, i.company_id, i.note_number, i.barcode, i.price, i.price_cost, p.descricao, p.cnpj, p.custo, p.estoque, p.preco, p.unid, sum(i.price_cost * i.quantity) as total ");
 					sql.Append("from input i left join product p on i.produto_id = p.cod_int  ");
-					sql.Append("where p.cnpj = '" + documents + "' ");
+					sql.Append("where i.cnpj_company = '" + documents + "' ");
 					sql.Append("group by i.id, i.produto_id, usuario_id, i.date, i.quantity, i.input_open, i.cpf_cnpj, i.company_id, i.note_number, i.barcode, i.price, i.price_cost, p.descricao, p.cnpj, p.custo, p.estoque, p.preco, p.unid ");
 					sql.Append("order by  i.date asc");
 

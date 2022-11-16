@@ -26,11 +26,11 @@ namespace tiautocom.data.access
 
         public static string publickey
         {
-            get { return "12345678"; }
+            get { return "19102022"; }
         }
         public static string secretkey
         {
-            get { return "87654321"; }
+            get { return "89314796"; }
         }
     }
 }

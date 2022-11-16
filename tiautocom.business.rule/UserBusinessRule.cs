@@ -11,7 +11,6 @@ namespace tiautocom.business.rule
 	public class UserBusinessRule
 	{
 		UserAccessData userAcessDatas;
-
 		public List<Users> userlogin(Users user)
 		{
 			try

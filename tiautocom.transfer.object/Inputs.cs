@@ -24,5 +24,6 @@ namespace tiautocom.transfer.objects
 		public string total { get; set; }
 		public string inventory { get; set; }
 		public bool input_open { get; set; }
+		public string cnpj_company { get; set; }
 	}
 }

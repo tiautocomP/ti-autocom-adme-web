@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
-    <title>Contrate - Cadastro de Usuário</title>
+    <title>Cadastro de Usuário</title>
     <!-- Simple bar CSS -->
     <link rel="stylesheet" href="css/simplebar.css">
     <!-- Fonts CSS -->
@@ -79,7 +79,7 @@
                         <div class="card shadow mb-4">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group mb-3">
                                             <label for="custom-select">**Dados login usuário</label>
                                         
@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="form-group mb-3">
                                             <label for="input-user-name">**Nome Usuário</label>
-                                            <input type="text" id="input-user-name" class="form-control">
+                                            <input type="search" id="input-user-name" class="form-control" value="">
                                             <span class="span" role="alert" id="span-user-name" aria-hidden="true"></span>
                                         </div>
                                         <div class="form-group mb-3">
@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="form-group mb-3">
                                             <label for="input-user-password">**Senha</label>
-                                            <input type="password" id="input-user-password" class="form-control">
+                                            <input type="password" id="input-user-password" class="form-control" value="">
                                             <span class="span" role="alert" id="span-user-password" aria-hidden="true"></span>
                                         </div>
                                     </div>
@@ -281,6 +281,5 @@
     <script src="scripts/notify.js"></script>
     <script src="scripts/menu-html.js"></script>
     <script src="scripts/user-type.js"></script>
-
 </body>
 </html>

@@ -1,13 +1,12 @@
 ﻿input_clear();
 getProductInput();
 
-let retorno;
-
 function inputProduct(id) {
 
 	const respjson = localStorage.getItem("listusers");
 	const user = JSON.parse(respjson);
 
+	var cnpj_company = user[0].cpf_cnpj;
 	var qtde = parseFloat(window.document.getElementById('product-input').value);
 	var description = window.document.getElementById('product-description').value;
 	var note_number = window.document.getElementById('note-number').value;
@@ -40,7 +39,8 @@ function inputProduct(id) {
 				note_number: note_number,
 				barcode: barcode,
 				price: price,
-				price_cost: price_cost
+				price_cost: price_cost,
+				cnpj_company: cnpj_company,
 			}
 		};
 		$.ajax({
@@ -177,12 +177,10 @@ function getProductInput() {
 
 				localStorage.setItem("products_input_list", JSON.stringify(object));
 
-				//alert(total.toFixed(2).replace(".", ",").toLocaleString('pt-br', { minimumFractionDigits: 2 }));
-
 				window.document.getElementById('total-note').innerHTML = "<h4>" + total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 
 			} else {
-				$.notify("Atenção, Não contém dados na tabela produto com departamento " + $('#multi-select-department').find(":selected").text().trim().toLowerCase() + "!", "error");
+				$.notify("Atenção, Não contém dados na tabela entrada de produto empresa CNPJ: " + user[0].cpf_cnpj + "!", "error");
 			}
 		}
 	});
@@ -256,6 +254,7 @@ function getNumberNote() {
 }
 
 const inputEle = document.getElementById('note-number');
+
 inputEle.addEventListener('keyup', function (e) {
 	var key = e.which || e.keyCode;
 	if (key == 13) { // codigo da tecla enter
@@ -398,8 +397,6 @@ function inputDelete(id) {
 		if (result.isConfirmed) {
 
 			getInputDelete(id);
-
-
 		} else if (
 			result.dismiss === Swal.DismissReason.cancel
 		) {
@@ -500,6 +497,39 @@ function getInputDelete(id, description) {
 	});
 }
 
+function getProdutuctDelete(id) {
+	var data = {
+		products:
+		{
+			id: id,
+			cnpj: user[0].cpf_cnpj,
+		}
+	};
+	$.ajax({
+		url: "products-list.aspx/ProductDeleteId",
+		data: JSON.stringify(data),
+		dataType: "json",
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		success: function (responses) {
+			var object = JSON.parse(responses.d);
+
+			if (object != null) {
+
+				$.notify("Sucesso, produto selecionado foi Deletado com sucesso!", "success");
+
+				const myTimeout = setTimeout(myGreetingProduct, 5000);
+			} else {
+				$.notify("Erro, Erro ao deletar produto selecionado!", "error");
+			}
+		}
+	});
+}
+
 function myGreeting() {
 	location.href = 'input-product-list.aspx';
+}
+
+function myGreetingProduct() {
+	location.href = 'products-list.aspx';
 }

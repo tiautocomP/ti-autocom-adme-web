@@ -13,11 +13,11 @@ namespace tiautocom.adm.panel
 	public partial class products_list : System.Web.UI.Page
 	{
 		[WebMethod]
-		public static string getproductsall(Produtcs produtcs)
+		public static string getproductsall(Products produtcs)
 		{
 			Produtcsbusinessrule produtcsbusinessrule = new Produtcsbusinessrule();
 
-			List<Produtcs> list = new List<Produtcs>();
+			List<Products> list = new List<Products>();
 
 			System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 
@@ -47,11 +47,11 @@ namespace tiautocom.adm.panel
 
 
 		[WebMethod]
-		public static string getproductsstatus(Produtcs produtcs)
+		public static string getproductsstatus(Products produtcs)
 		{
 			Produtcsbusinessrule produtcsbusinessrule = new Produtcsbusinessrule();
 
-			List<Produtcs> list = produtcsbusinessrule.getproductsstatus(produtcs);
+			List<Products> list = produtcsbusinessrule.getproductsstatus(produtcs);
 
 			System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 
@@ -65,7 +65,7 @@ namespace tiautocom.adm.panel
 		{
 			Produtcsbusinessrule produtcsbusinessrule = new Produtcsbusinessrule();
 
-			List<Produtcs> list = produtcsbusinessrule.getproductId(id);
+			List<Products> list = produtcsbusinessrule.getproductId(id);
 
 			System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 
@@ -80,6 +80,33 @@ namespace tiautocom.adm.panel
 			InputBusinessRule inputBusinessRule = new InputBusinessRule();
 
 			string sJSON = inputBusinessRule.postproductInput(inputs);
+
+			return sJSON;
+		}
+
+		[WebMethod]
+		public static string ProductDeleteId(Products products)
+		{
+			int id = 1;
+			Produtcsbusinessrule produtcsbusinessrule = new Produtcsbusinessrule();
+
+			string sJSON = produtcsbusinessrule.DeleteProduct(products);
+
+			return sJSON;
+		}
+
+		[WebMethod]
+		public static string getproductsallDesc(Products produtcs)
+		{
+			Produtcsbusinessrule produtcsbusinessrule = new Produtcsbusinessrule();
+
+			List<Products> list = new List<Products>();
+
+			System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+			list = produtcsbusinessrule.getproductsallDesc(produtcs);
+
+			string sJSON = oSerializer.Serialize(list).ToString();
 
 			return sJSON;
 		}

@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link rel="icon" href="favicon.ico">
-	<title>Alteração de Usuario</title>
+	<title>rede sete - Alteração de Usuario</title>
 	<!-- Simple bar CSS -->
 	<link rel="stylesheet" href="css/simplebar.css">
 	<!-- Fonts CSS -->

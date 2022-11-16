@@ -26,7 +26,7 @@ function getUserTyptAll() {
 			if (object !== null) {
 
 				for (var i = 0; i < object.length; i++) {
-					values_select_user_type += '<option value="' + object[i].Id + '">' + object[i].description + '</option>';
+					values_select_user_type += '<option value="' + object[i].id + '">' + object[i].description + '</option>';
 				}
 
 				html_select_user_type = '<select class="custom-select" id="company-select">' +

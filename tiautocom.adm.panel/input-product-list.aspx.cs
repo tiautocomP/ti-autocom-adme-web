@@ -13,11 +13,11 @@ namespace tiautocom.adm.panel
 	public partial class input_product_list : System.Web.UI.Page
 	{
 		[WebMethod]
-		public static string getProductsInput(string documents)
+		public static string getProductsInput(Inputs inputs)
 		{
 			InputBusinessRule inputBusinessRule = new InputBusinessRule();
 
-			List<Inputs> list = inputBusinessRule.getProductsInput(documents);
+			List<Inputs> list = inputBusinessRule.getProductsInput(inputs);
 
 			System.Web.Script.Serialization.JavaScriptSerializer oSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 

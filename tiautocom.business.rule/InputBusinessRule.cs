@@ -29,12 +29,12 @@ namespace tiautocom.business.rule
 			throw new NotImplementedException();
 		}
 
-		public List<Inputs> getProductsInput(string documents)
+		public List<Inputs> getProductsInput(Inputs inputs)
 		{
 			try
 			{
 				inputAccessData = new InputAccessData();
-				return inputAccessData.getProductsInput(documents);
+				return inputAccessData.getProductsInput(inputs);
 			}
 			catch (Exception ex)
 			{

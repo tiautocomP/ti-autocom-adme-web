@@ -33,7 +33,7 @@ function inputProduct(id) {
 			{
 				produto_id: id,
 				quantity: qtde,
-				usuario_id: user[0].person_id,
+				usuario_id: user[0].user_id,
 				cpf_cnpj: cnpj,
 				company_id: user[0].company_id,
 				note_number: note_number,
@@ -88,9 +88,18 @@ function getProductInput() {
 	const respjson = localStorage.getItem("listusers");
 	const user = JSON.parse(respjson);
 
+	var data = {
+		inputs:
+		{
+			cnpj_company: user[0].cpf_cnpj,
+			usuario_id: user[0].user_id,
+			company_id: user[0].company_id
+		}
+	};
+
 	$.ajax({
 		url: "input-product-list.aspx/getProductsInput",
-		data: '{documents: ' + user[0].cpf_cnpj + '}',
+		data: JSON.stringify(data),
 		dataType: "json",
 		type: "POST",
 		contentType: "application/json; charset=utf-8",
@@ -227,10 +236,17 @@ function exportProduct() {
 function importProduct() {
 	const respjson = localStorage.getItem("listusers");
 	const user = JSON.parse(respjson);
-
+	var data = {
+		inputs:
+		{
+			cnpj_company: user[0].cpf_cnpj,
+			usuario_id: user[0].user_id,
+			company_id: user[0].company_id
+		}
+	};
 	$.ajax({
 		url: "input-product-list.aspx/ImportInput",
-		data: '{cnpj: ' + user[0].cpf_cnpj + '}',
+		data: JSON.stringify(data),
 		dataType: "json",
 		type: "POST",
 		contentType: "application/json; charset=utf-8",
@@ -238,6 +254,9 @@ function importProduct() {
 			if (responses.d == "OK") {
 				retorno = "OK";
 				$.notify("Atenção, Todos os itens de produto com CNPJ: " + user[0].cpf_cnpj + " foi impotado com sucesso!!!", "success");
+
+				localStorage.removeItem("documents");
+
 				getProductInput();
 			} else {
 				retorno = "NO";

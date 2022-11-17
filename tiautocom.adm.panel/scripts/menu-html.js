@@ -191,7 +191,7 @@ function getmenu() {
 		//'<li class="nav-item dropdown">' +
 		//'<a href="#support" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">' +
 		//'<i class="fe fe-compass fe-16"></i>' +
-		//'<span class="ml-3 item-text">Help Desk</span>' +
+		'<span class="ml-3 item-text">@TI-Autocom-2022.06</span>' +
 		//'</a>' +
 		//'<ul class="collapse list-unstyled pl-4 w-100" id="support">' +
 		//'<a class="nav-link pl-3" href="./support-center.html"><span class="ml-1">Home</span></a>' +

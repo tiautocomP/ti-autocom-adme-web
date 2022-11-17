@@ -81,12 +81,12 @@ namespace tiautocom.business.rule
 			}
 		}
 
-		public string ImportInput()
+		public string ImportInput(Inputs inputs)
 		{
 			try
 			{
 				inputAccessData = new InputAccessData();
-				return inputAccessData.ImportInput();
+				return inputAccessData.ImportInput(inputs);
 			}
 			catch (Exception ex)
 			{

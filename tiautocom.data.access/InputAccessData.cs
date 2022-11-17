@@ -59,7 +59,7 @@ namespace tiautocom.data.access
 			}
 		}
 
-		public string ImportInput()
+		public string ImportInput(Inputs inputs)
 		{
 			try
 			{
@@ -67,7 +67,7 @@ namespace tiautocom.data.access
 				{
 					connections.Open();
 
-					sql.Append("update input set input_open=@input_open");
+					sql.Append($"update input set input_open=@input_open where cnpj_company={ inputs.cnpj_company} and usuario_id={inputs.usuario_id}");
 
 					comandoSql.CommandText = sql.ToString();
 					comandoSql.Connection = connections;
@@ -218,7 +218,7 @@ namespace tiautocom.data.access
 
 					sql.Append("select i.id, i.produto_id, usuario_id, i.date, i.quantity, i.input_open, i.cpf_cnpj, i.company_id, i.note_number, i.barcode, i.price as preco, i.price_cost, p.descricao, p.cnpj, p.custo, p.estoque, p.preco as preco_produto, p.unid, sum(i.price_cost * i.quantity) as total ");
 					sql.Append("from input i left join product p on i.produto_id = p.cod_int  ");
-					sql.Append($"where i.cnpj_company = '{inputs.cnpj_company}' and usuario_id={inputs.company_id}");
+					sql.Append($"where i.cnpj_company = '{inputs.cnpj_company}' and usuario_id={inputs.usuario_id}");
 					sql.Append("group by i.id, i.produto_id, usuario_id, i.date, i.quantity, i.input_open, i.cpf_cnpj, i.company_id, i.note_number, i.barcode, i.price, i.price_cost, p.descricao, p.cnpj, p.custo, p.estoque, p.preco, p.unid ");
 					sql.Append("order by  i.date asc");
 

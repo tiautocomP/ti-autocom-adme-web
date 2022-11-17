@@ -681,7 +681,6 @@ function SaveInpuProduto() {
 	let cst_cofins = window.document.getElementById('select-cofins').value;
 	let cst_ipi = window.document.getElementById('select-ipi-id').value;
 	let valor_ipi = window.document.getElementById('input-price-ipi').value;
-	alert(cst_icms);
 
 	if (!codigo_barras) {
 		$.notify("Atenção, Campo código de barras não pode ser nulo ou vázio.", "warn");
@@ -737,8 +736,8 @@ function SaveInpuProduto() {
 	} else if (parseInt(cst_pis) < 0) {
 		$.notify("Atenção, pis cst do produto não pode ser nulo ou vázio.", "warn");
 		$("#select-cst-pis").focus();
-	} else if (parseInt(cst_cofins) < 0) {
-		$.notify("Atenção, cofins do produto não pode ser nulo ou vázio.", "warn");
+	} else if (parseInt(cst_cofins) <= 0) {
+		$.notify("Atenção, cofins cst do produto não pode ser nulo ou vázio.", "warn");
 		$("#select-cst-cofins").focus();
 	} else if (parseInt(cst_ipi) < 0) {
 		$.notify("Atenção, Campo ipi cst do produto não pode ser nulo ou vázio.", "warn");

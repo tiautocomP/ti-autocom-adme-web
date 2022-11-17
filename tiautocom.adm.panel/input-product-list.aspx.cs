@@ -65,11 +65,11 @@ namespace tiautocom.adm.panel
 		}
 
 		[WebMethod]
-		public static string ImportInput(string cnpj)
+		public static string ImportInput(Inputs inputs)
 		{
 			InputBusinessRule inputBusinessRule = new InputBusinessRule();
 
-			string sJSON = inputBusinessRule.ImportInput();
+			string sJSON = inputBusinessRule.ImportInput(inputs);
 
 			return sJSON;
 		}

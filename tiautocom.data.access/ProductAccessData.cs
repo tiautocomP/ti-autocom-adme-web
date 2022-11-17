@@ -90,7 +90,16 @@ namespace tiautocom.data.access
 				{
 					connections.Open();
 
-					sql.Append($"select * from product where descricao like '%{produtcs.descricao}%' and ativo=1 order by descricao asc");
+					try
+					{
+						int des = Convert.ToInt32(produtcs.descricao.Substring(0, 5));
+
+						sql.Append($"select * from product where cod_barra like '%{produtcs.descricao}%' and ativo=1 order by descricao asc");
+					}
+					catch
+					{
+						sql.Append($"select * from product where descricao like '%{produtcs.descricao}%' and ativo=1 order by descricao asc");
+					}
 
 					comandoSql.CommandText = sql.ToString();
 					comandoSql.Connection = connections;
@@ -267,9 +276,9 @@ namespace tiautocom.data.access
 
 					var id_product = 0;
 
-					sql.Append("insert into product (cnpj, cod_barra, num_depar, departam, descricao, estoque, preco, unid, custo, trib, [desc], est_min, granel, desc_auto, qtde_desc, validade, margem, setor, vencimento, dt_ajuste, valor_pis, cst_pis, valor_confins, cfop, cst_cofins, origem_produto, icms, icms_cst, ncm, cest, ipi, cst_ipi, mod_bc, red_bc, anp, new)");
+					sql.Append("insert into product (cnpj, cod_barra, num_depar, departam, descricao, estoque, preco, unid, custo, trib, [desc], est_min, granel, desc_auto, qtde_desc, validade, margem, setor, vencimento, dt_ajuste, valor_pis, cst_pis, valor_confins, cfop, cst_cofins, origem_produto, icms, icms_cst, ncm, cest, ipi, cst_ipi, mod_bc, red_bc, anp, new, ativo)");
 					sql.Append(" values ");
-					sql.Append("(@cnpj, @cod_barra, @num_depar, @departam, @descricao, @estoque, @preco, @unid, @custo, @trib, @desc, @est_min, @granel, @desc_auto, @qtde_desc, @validade, @margem, @setor, @vencimento, @dt_ajuste, @valor_pis, @cst_pis, @valor_confins, @cfop, @cst_cofins, @origem_produto, @icms, @icms_cst, @ncm, @cest, @ipi, @cst_ipi, @mod_bc, @red_bc, @anp, @new)");
+					sql.Append("(@cnpj, @cod_barra, @num_depar, @departam, @descricao, @estoque, @preco, @unid, @custo, @trib, @desc, @est_min, @granel, @desc_auto, @qtde_desc, @validade, @margem, @setor, @vencimento, @dt_ajuste, @valor_pis, @cst_pis, @valor_confins, @cfop, @cst_cofins, @origem_produto, @icms, @icms_cst, @ncm, @cest, @ipi, @cst_ipi, @mod_bc, @red_bc, @anp, @new, @ativo)");
 
 					comandoSql.Parameters.AddWithValue("@cnpj", products.cnpj);
 					comandoSql.Parameters.AddWithValue("@cod_barra", products.codigo_barras.PadLeft(13, '0'));
@@ -307,6 +316,7 @@ namespace tiautocom.data.access
 					comandoSql.Parameters.AddWithValue("@red_bc", int.Parse(products.red_bc_calc.Replace(",", "")));
 					comandoSql.Parameters.AddWithValue("@anp", products.anp);
 					comandoSql.Parameters.AddWithValue("@new", 0);
+					comandoSql.Parameters.AddWithValue("@ativo", 1);
 
 					try
 					{

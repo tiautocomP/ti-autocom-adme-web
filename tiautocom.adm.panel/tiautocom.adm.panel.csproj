@@ -104,7 +104,6 @@
     <Content Include="fonts\feather.eot" />
     <Content Include="fonts\feather.ttf" />
     <Content Include="fonts\feather.woff" />
-    <None Include="Properties\PublishProfiles\adme.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -299,6 +298,7 @@
   <ItemGroup>
     <Folder Include="add\" />
     <Folder Include="list\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
